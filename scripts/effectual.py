@@ -43,13 +43,12 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
         packages: dict = tomllib.load(file)
         for key in packages.get("packages"):
             os.system(f"pip install {key} --target {OUTPUTDIRECTORY}")
-            DEPENDENCIES.append(key)
 
     with zipfile.ZipFile(f"{outputDirectory}bundle.py", "w", compression=zipfile.ZIP_DEFLATED, compresslevel=compressionLevel) as bundler:
         for file in pathlib.Path(outputDirectory).rglob("*"):
             arcname = str(file.relative_to(outputDirectory)).replace(os.sep, "/")
 
-            if "bundle.py" not in str(file):
+            if pathLeaf(file) not in IGNORE:
                 bundler.write(
                     file,
                     arcname=arcname
@@ -79,8 +78,7 @@ if "__main__" in __name__:
         OUTPUTDIRECTORY: str = configData.get("outputDirectory")
         COMPRESSIONLEVEL: int = configData.get("compressionLevel") # From 0-9
         MINIFICATION: bool = configData.get("minification")
-        IGNORE: list = ["bundle.py"]
-        DEPENDENCIES: list = []
+        IGNORE: list = list(configData.get("ignore"))
 
     if not os.path.exists(OUTPUTDIRECTORY):
         os.makedirs(OUTPUTDIRECTORY)

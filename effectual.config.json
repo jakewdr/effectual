@@ -2,5 +2,6 @@
     "sourceDirectory": "./src/",
     "outputDirectory": "./dist/",
     "minification": true,
-    "compressionLevel": 9
+    "compressionLevel": 9,
+    "ignore": ["bundle.py"]
 }
