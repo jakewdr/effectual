@@ -1,0 +1,6 @@
+{
+    "sourceDirectory": "./src/",
+    "outputDirectory": "./dist/",
+    "minification": true,
+    "compressionLevel": 9
+}
