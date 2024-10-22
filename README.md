@@ -38,7 +38,7 @@ This will install all development dependencies into a virtual environment allowi
 
 ### Without bundling
 
-To run the project without bundling you can use
+To run the source without bundling you can use
 
     task dev
 
@@ -46,7 +46,7 @@ This will use the packages stored in the pipenv environment and lint/format the 
 
 ### With bundling
 
-To bundle the project run
+To bundle the source files and run the output
 
     task dist
 
