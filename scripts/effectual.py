@@ -42,16 +42,13 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
     with open("./Pipfile", "rb") as file:
         packages: dict = tomllib.load(file)
         for key in packages.get("packages"):
-            packageOutputPath = f"./dist/{key}"
-            os.system(f"pip install {key} --target {packageOutputPath}")
+            os.system(f"pip install {key} --target {OUTPUTDIRECTORY}")
             DEPENDENCIES.append(key)
 
     with zipfile.ZipFile(f"{outputDirectory}bundle.py", "w", compression=zipfile.ZIP_DEFLATED, compresslevel=compressionLevel) as bundler:
         for file in pathlib.Path(outputDirectory).rglob("*"):
             arcname = str(file.relative_to(outputDirectory)).replace(os.sep, "/")
-            for string in DEPENDENCIES:
-                if f"{string}/" in arcname:
-                    arcname = arcname.replace(f"{string}/", "", 1)
+
             if "bundle.py" not in str(file):
                 bundler.write(
                     file,

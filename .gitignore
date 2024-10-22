@@ -1,3 +1,7 @@
+# effectual specific
+
+.effectual_cache
+
 # vscode specific
 
 .vscode/
