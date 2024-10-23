@@ -51,7 +51,6 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
     with open("./.effectual_cache/dependencies.json", "r") as jsonFileRead:
         try:
             fileContents: dict = json.load(jsonFileRead)
-            print("Contents loaded")
         except:
             fileContents: dict = {}
         for key in packages:
@@ -69,7 +68,7 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
         for file in pathlib.Path(outputDirectory).rglob("*"):
             arcname = str(file.relative_to(outputDirectory)).replace(os.sep, "/")
 
-            if pathLeaf(file) not in IGNORE:
+            if pathLeaf(file) not in IGNORE and " __pycache__" not in str(file):
                 bundler.write(
                     file,
                     arcname=arcname

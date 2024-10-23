@@ -57,8 +57,6 @@ This will lint/format the source files and then bundle the project and any (non 
 
 ## To be added
 
-- Package caching
-- Specific package version install
 - More config granularity
 - Catching more edge cases and more robust programming
 
