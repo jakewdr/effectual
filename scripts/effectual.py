@@ -38,8 +38,9 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
         for file in pythonFiles:
             with open(file, "r+") as fileRW:
                 minifiedCode = python_minifier.minify(
-                    fileRW.read(), rename_locals=False, rename_globals=False
+                    fileRW.read(), rename_locals=False, rename_globals=False, hoist_literals=False
                 )  # I don't rename vars as that could cause problems when importing between files
+                # Also no hoisting literals as that causes un-needed variable assignment
                 fileRW.seek(0)
                 fileRW.writelines(minifiedCode)
                 fileRW.truncate()
@@ -71,7 +72,7 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
                 json.dump(
                     fileContents, open("./.effectual_cache/dependencies.json", "w")
                 )
-        copy_tree("./.effectual_cache/cachedPackages", OUTPUTDIRECTORY)
+        copy_tree("./.effectual_cache/cachedPackages", OUTPUTDIRECTORY) # Copies dependencies to output folder
 
     with zipfile.ZipFile(
         f"{outputDirectory}bundle.py",
@@ -82,7 +83,7 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
         for file in pathlib.Path(outputDirectory).rglob("*"):
             arcname = str(file.relative_to(outputDirectory)).replace(os.sep, "/")
 
-            if pathLeaf(file) not in IGNORE and " __pycache__" not in str(file):
+            if pathLeaf(file) not in IGNORE and "__pycache__" not in str(file): # Don't want .pyc files as they can be platform specific
                 bundler.write(file, arcname=arcname)
 
     ignore_set = {
@@ -101,6 +102,7 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
                 os.rmdir(directoryPath)
             except OSError:
                 pass
+    # ^ Cleanup (deletes all files except from ones in the ignore list)
 
 
 if "__main__" in __name__:
