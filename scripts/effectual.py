@@ -6,6 +6,7 @@ import shutil
 import zipfile
 import python_minifier
 from time import perf_counter
+from distutils.dir_util import copy_tree
 
 def pathLeaf(path) -> str:
     return str(os.path.split(path)[1]).strip()
@@ -40,9 +41,29 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
                 fileRW.truncate()
 
     with open("./Pipfile", "rb") as file:
-        packages: dict = tomllib.load(file)
-        for key in packages.get("packages"):
-            os.system(f"pip install {key} --target {OUTPUTDIRECTORY}")
+        packages: dict = (tomllib.load(file)).get("packages")
+        
+    try:
+        with open("./.effectual_cache/dependencies.json", 'x') as file:
+            file.write("{\n\n}")
+    except FileExistsError:
+        pass
+    with open("./.effectual_cache/dependencies.json", "r") as jsonFileRead:
+        try:
+            fileContents: dict = json.load(jsonFileRead)
+            print("Contents loaded")
+        except:
+            fileContents: dict = {}
+        for key in packages:
+            if fileContents == {} or key not in packages:
+                if packages.get(key) == "*":
+                    os.system(f"pip install {key} --target ./.effectual_cache/cachedPackages")
+                else:
+                    os.system(f"pip install {key}=={packages.get(key)} --target ./.effectual_cache/cachedPackages")
+                fileContents.update({key: packages.get(key)}) 
+                json.dump(fileContents, open("./.effectual_cache/dependencies.json","w"))
+        copy_tree("./.effectual_cache/cachedPackages", OUTPUTDIRECTORY)
+            
 
     with zipfile.ZipFile(f"{outputDirectory}bundle.py", "w", compression=zipfile.ZIP_DEFLATED, compresslevel=compressionLevel) as bundler:
         for file in pathlib.Path(outputDirectory).rglob("*"):
