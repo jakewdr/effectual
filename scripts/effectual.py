@@ -115,6 +115,9 @@ if "__main__" in __name__:
 
     if not os.path.exists(OUTPUTDIRECTORY):
         os.makedirs(OUTPUTDIRECTORY)
+        
+    pathlib.Path("./.effectual_cache/cachedPackages").mkdir(parents=True, exist_ok=True)
+
     start = perf_counter()
     bundle(SOURCEDIRECTORY, OUTPUTDIRECTORY, COMPRESSIONLEVEL)
     end = perf_counter()
