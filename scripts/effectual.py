@@ -6,7 +6,6 @@ import shutil
 import zipfile
 import python_minifier
 from time import perf_counter
-from distutils.dir_util import copy_tree
 
 
 def pathLeaf(path) -> str:
