@@ -44,6 +44,7 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
                 fileRW.seek(0)
                 fileRW.writelines(minifiedCode)
                 fileRW.truncate()
+                
 
     with open("./Pipfile", "rb") as file:
         packages: dict = (tomllib.load(file)).get("packages")
@@ -72,7 +73,6 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
                 json.dump(
                     fileContents, open("./.effectual_cache/dependencies.json", "w")
                 )
-        copy_tree("./.effectual_cache/cachedPackages", OUTPUTDIRECTORY) # Copies dependencies to output folder
 
     with zipfile.ZipFile(
         f"{outputDirectory}bundle.py",
@@ -80,30 +80,13 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
         compression=zipfile.ZIP_DEFLATED,
         compresslevel=compressionLevel,
     ) as bundler:
-        for file in pathlib.Path(outputDirectory).rglob("*"):
-            arcname = str(file.relative_to(outputDirectory)).replace(os.sep, "/")
-
-            if pathLeaf(file) not in IGNORE and "__pycache__" not in str(file): # Don't want .pyc files as they can be platform specific
+        for file in pathlib.Path("./.effectual_cache/cachedPackages").rglob("*"):
+            arcname = str(file).replace(os.sep, "/").replace(".effectual_cache/cachedPackages", "")
+            if "__pycache__" not in str(file) and ".dist-info" not in str(file): # Don't want .pyc files as they can be platform specific
                 bundler.write(file, arcname=arcname)
-
-    ignore_set = {
-        os.path.abspath(os.path.join(OUTPUTDIRECTORY, path)) for path in IGNORE
-    }
-
-    for root, dirs, files in os.walk(OUTPUTDIRECTORY, topdown=False):
-        for file in files:
-            file_path = os.path.abspath(os.path.join(root, file))
-            if file_path not in ignore_set:
-                os.remove(file_path)
-
-        for directory in dirs:
-            directoryPath = os.path.abspath(os.path.join(root, directory))
-            try:
-                os.rmdir(directoryPath)
-            except OSError:
-                pass
-    # ^ Cleanup (deletes all files except from ones in the ignore list)
-
+        for file in pythonFiles:
+            bundler.write(file, arcname=pathLeaf(file))  # pathleaf is needed to not maintain folder structure
+            os.remove(file)  # Clean up
 
 if "__main__" in __name__:
     with open("./effectual.config.json", "r") as file:
@@ -113,7 +96,6 @@ if "__main__" in __name__:
         OUTPUTDIRECTORY: str = configData.get("outputDirectory")
         COMPRESSIONLEVEL: int = configData.get("compressionLevel")  # From 0-9
         MINIFICATION: bool = configData.get("minification")
-        IGNORE: list = list(configData.get("ignore"))
 
     if not os.path.exists(OUTPUTDIRECTORY):
         os.makedirs(OUTPUTDIRECTORY)
