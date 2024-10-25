@@ -19,8 +19,8 @@ tasks:
 
     format:
         cmds:
-            - ruff check --fix src/ --config ruff.toml
-            - ruff format src/ --config ruff.toml
+            - pipenv run ruff check --fix src/ --config ruff.toml
+            - pipenv run ruff format src/ --config ruff.toml
 
     setup:
         cmds:
