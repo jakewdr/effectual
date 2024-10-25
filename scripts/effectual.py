@@ -118,7 +118,6 @@ def bundle(srcDirectory: str, outputDirectory: str, compressionLevel: int) -> No
                 bundler.write(file, arcname=arcname)
         print("Bundling python source files")
         for file in pythonFiles:
-            
             bundler.write(
                 file, arcname=pathLeaf(file)
             )  # pathleaf is needed to not maintain folder structure
@@ -129,10 +128,10 @@ if "__main__" in __name__:
     with open("./effectual.config.json", "r") as file:
         configData: dict = json.load(file)
 
-        SOURCEDIRECTORY: str = configData.get("sourceDirectory")
-        OUTPUTDIRECTORY: str = configData.get("outputDirectory")
-        COMPRESSIONLEVEL: int = configData.get("compressionLevel")  # From 0-9
-        MINIFICATION: bool = configData.get("minification")
+    SOURCEDIRECTORY: str = configData.get("sourceDirectory")
+    OUTPUTDIRECTORY: str = configData.get("outputDirectory")
+    COMPRESSIONLEVEL: int = configData.get("compressionLevel")  # From 0-9
+    MINIFICATION: bool = configData.get("minification")
 
     if not os.path.exists(OUTPUTDIRECTORY):
         os.makedirs(OUTPUTDIRECTORY)
