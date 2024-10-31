@@ -1,6 +1,7 @@
 {
     "sourceDirectory": "./src/",
     "outputDirectory": "./dist/",
+    "outputFileName": "bundle.py",
     "minification": true,
     "compressionLevel": 9
 }
