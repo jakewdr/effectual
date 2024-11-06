@@ -30,11 +30,14 @@ def minification(fileName: str) -> None:
 def bundle() -> None:
     """Bundles python files and dependencies into a single file"""
 
-    shutil.rmtree(OUTPUTDIRECTORY)  # Deletes current contents of output directory
-    shutil.copytree(
-        SOURCEDIRECTORY, OUTPUTDIRECTORY
-    )  # Copies source to output directory
-
+    if os.path.exists(f"{OUTPUTDIRECTORY}/{OUTPUTFILENAME}"):
+        os.remove(f"{OUTPUTDIRECTORY}/{OUTPUTFILENAME}")
+    for entry in pathlib.Path(SOURCEDIRECTORY).iterdir():
+        if ".py" in str(entry):
+            try:
+                shutil.copyfile(entry, f"{OUTPUTDIRECTORY}/{pathLeaf(entry)}")
+            except PermissionError:
+                pass
     pythonFiles = np.array(
         [
             str(entry).replace(
@@ -56,20 +59,21 @@ def bundle() -> None:
     except FileExistsError:
         pass
     with open("./.effectual_cache/dependencies.json", "r") as jsonFileRead:
-        try:
+        if os.stat("./.effectual_cache/dependencies.json").st_size != 0:
             fileContents: dict = json.load(jsonFileRead)
-        except FileNotFoundError:
+        else:
             fileContents: dict = {}
         for key in packages:
-            if fileContents == {} or key not in packages:
+            if fileContents == {} or not key in fileContents:
                 print(f"Installing {key}")
+                pathToInstallTo: str = "./.effectual_cache/cachedPackages"
                 if packages.get(key) == "*":
                     os.system(
-                        f"pip install {key} --quiet --target ./.effectual_cache/cachedPackages"
+                        f"pip install {key} --quiet --target {pathToInstallTo}"
                     )
                 else:
                     os.system(
-                        f"pip install {key}=={packages.get(key)} --quiet --target ./.effectual_cache/cachedPackages"
+                        f"pip install {key}=={packages.get(key)} --quiet --target {pathToInstallTo}"
                     )
                 fileContents.update({key: packages.get(key)})
                 json.dump(
@@ -111,7 +115,7 @@ def bundle() -> None:
             bundler.write(
                 file, arcname=pathLeaf(file)
             )  # pathleaf is needed to not maintain folder structure
-            os.remove(file)  # Clean up
+            os.remove(file)
 
 
 if "__main__" in __name__:
