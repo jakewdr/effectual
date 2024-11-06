@@ -6,6 +6,11 @@
 
 Sometimes you want a single portable python file without having to make a platform specific executable or .pyz file!
 
+## When not to use this
+
+- The python package requires access to specific files like [customtkinter](https://github.com/TomSchimansky/CustomTkinter/wiki/Packaging#windows-pyinstaller-auto-py-to-exe)
+- Incredibly version specific code, for example something that won't run on a slightly different version, this is because the user will need to have the exact same python version
+
 ## Setup
 
 ### Python
