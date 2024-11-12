@@ -70,7 +70,6 @@ This will lint/format the source files and then bundle the project and any (non 
 
 - More config granularity
 - Catching more edge cases with more robust programming
-- Switching from pipenv to the faster uv (also made by the same people who make ruff)
 
 ## Contributions
 
