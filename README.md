@@ -15,7 +15,7 @@ Sometimes you want a single portable python file without having to make a platfo
 
 ### Python
 
-Firstly you will need to install a version of [python](https://www.python.org/) alongside pip, this project was originally built with [python 3.11.x](https://www.python.org/downloads/release/python-31110/) but supports pretty much any python3 version pipenv does, the version the project uses can be changed from the [Pipfile](https://github.com/jakewdr/effectual/blob/main/Pipfile), make sure to change the ruff settings to the output version as well!
+Firstly you will need to install a version of [python](https://www.python.org/) alongside pip, this project was originally built with [python 3.11.x](https://www.python.org/downloads/release/python-31110/) but supports pretty much any python3 version pipenv does, the version the project uses can be changed from the [Pipfile](https://bilard.medium.com/change-python-version-in-pipenv-1ac7b8f9b7b9), make sure to change the ruff settings to the output version as well!
 
 ### Taskfile
 
