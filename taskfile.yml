@@ -15,7 +15,7 @@ tasks:
     build:
         cmds:
             - task format
-            - pipenv run python scripts/effectual.py
+            - pipenv run python scripts/build.py
 
     format:
         cmds:
