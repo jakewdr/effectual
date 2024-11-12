@@ -64,19 +64,6 @@ def main() -> None:
         if ".py" in str(pathlib.Path(entry))
     ]  # If it is a verified file and is a python file
 
-    requiredFiles: list[str] = [
-        str(file)
-        for file in pathlib.Path("./.effectual_cache/cachedPackages").rglob("*")
-        if (
-            "__pycache__" not in str(file)
-            and ".dist-info" not in str(file)
-            and ".pyc" not in str(file)
-            and ".pyd" not in str(file)
-            and "normalizer.exe" not in str(file)
-            and "py.typed" not in str(file)
-        )
-    ]
-
     with zipfile.ZipFile(
         f"{OUTPUTDIRECTORY}{OUTPUTFILENAME}",
         "w",
@@ -84,11 +71,13 @@ def main() -> None:
         compresslevel=COMPRESSIONLEVEL,
     ) as bundler:
         print("Bundling packages")
-        for file in requiredFiles:
-            arcname = file.replace(os.sep, "/").replace(
-                ".effectual_cache/cachedPackages", ""
+        for file in pathlib.Path("./.effectual_cache/cachedPackages").rglob("*"):
+            arcname = (
+                str(file)
+                .replace(os.sep, "/")
+                .replace(".effectual_cache/cachedPackages", "")
             )
-            bundler.write(file, arcname=arcname)
+            bundler.write(str(file), arcname=arcname)
 
         print("Bundling python source files")
         for file in pythonFiles:
