@@ -26,11 +26,26 @@ def minification(fileName: str) -> None:
         fileRW.truncate()
 
 
-def bundle() -> None:
+def main() -> None:
     """Bundles python files and dependencies into a single file"""
+
+    with open("./effectual.config.json", "r") as file:
+        configData: dict = json.load(file)
+
+    SOURCEDIRECTORY: str = configData.get("sourceDirectory")
+    OUTPUTDIRECTORY: str = configData.get("outputDirectory")
+    OUTPUTFILENAME: str = configData.get("outputFileName")
+    COMPRESSIONLEVEL: int = configData.get("compressionLevel")  # From 0-9
+    MINIFICATION: bool = configData.get("minification")
+
+    if not os.path.exists(OUTPUTDIRECTORY):
+        os.makedirs(OUTPUTDIRECTORY)
 
     if os.path.exists(f"{OUTPUTDIRECTORY}/{OUTPUTFILENAME}"):
         os.remove(f"{OUTPUTDIRECTORY}/{OUTPUTFILENAME}")
+
+    start = perf_counter()
+
     for entry in pathlib.Path(SOURCEDIRECTORY).iterdir():
         if ".py" in str(entry):
             try:
@@ -86,22 +101,10 @@ def bundle() -> None:
             )  # pathleaf is needed to not maintain folder structure
             os.remove(file)
 
-
-if "__main__" in __name__:
-    with open("./effectual.config.json", "r") as file:
-        configData: dict = json.load(file)
-
-    SOURCEDIRECTORY: str = configData.get("sourceDirectory")
-    OUTPUTDIRECTORY: str = configData.get("outputDirectory")
-    OUTPUTFILENAME: str = configData.get("outputFileName")
-    COMPRESSIONLEVEL: int = configData.get("compressionLevel")  # From 0-9
-    MINIFICATION: bool = configData.get("minification")
-
-    if not os.path.exists(OUTPUTDIRECTORY):
-        os.makedirs(OUTPUTDIRECTORY)
-
-    start = perf_counter()
-    bundle()
     end = perf_counter()
 
     print(f"Bundled in {end - start} seconds")
+
+
+if "__main__" in __name__:
+    main()
