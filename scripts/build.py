@@ -1,9 +1,8 @@
 import os
 import json
-import pathlib
 import shutil
+import pathlib
 import zipfile
-import numpy as np
 import python_minifier
 from time import perf_counter
 
@@ -30,7 +29,10 @@ def main() -> None:
     """Bundles python files and dependencies into a single file"""
 
     with open("./effectual.config.json", "r") as file:
-        configData: dict = json.load(file)
+        try:
+            configData: dict = json.load(file)
+        except ValueError:
+            raise Exception("Failed to load effectual.config.json")
 
     SOURCEDIRECTORY: str = configData.get("sourceDirectory")
     OUTPUTDIRECTORY: str = configData.get("outputDirectory")
@@ -52,32 +54,28 @@ def main() -> None:
                 shutil.copyfile(entry, f"{OUTPUTDIRECTORY}/{pathLeaf(entry)}")
             except PermissionError:
                 pass
-    pythonFiles = np.array(
-        [
-            str(entry).replace(
-                os.sep, "/"
-            )  # Appends a string of the file path with forward slashes
-            for entry in pathlib.Path(
-                OUTPUTDIRECTORY
-            ).iterdir()  # For all the file entries in the directory
-            if ".py" in str(pathlib.Path(entry))
-        ]
-    )  # If it is a verified file and is a python file
+    pythonFiles: list[str] = [
+        str(entry).replace(
+            os.sep, "/"
+        )  # Appends a string of the file path with forward slashes
+        for entry in pathlib.Path(
+            OUTPUTDIRECTORY
+        ).iterdir()  # For all the file entries in the directory
+        if ".py" in str(pathlib.Path(entry))
+    ]  # If it is a verified file and is a python file
 
-    requiredFiles = np.array(
-        [
-            str(file)
-            for file in pathlib.Path("./.effectual_cache/cachedPackages").rglob("*")
-            if (
-                "__pycache__" not in str(file)
-                and ".dist-info" not in str(file)
-                and ".pyc" not in str(file)
-                and ".pyd" not in str(file)
-                and "normalizer.exe" not in str(file)
-                and "py.typed" not in str(file)
-            )
-        ]
-    )
+    requiredFiles: list[str] = [
+        str(file)
+        for file in pathlib.Path("./.effectual_cache/cachedPackages").rglob("*")
+        if (
+            "__pycache__" not in str(file)
+            and ".dist-info" not in str(file)
+            and ".pyc" not in str(file)
+            and ".pyd" not in str(file)
+            and "normalizer.exe" not in str(file)
+            and "py.typed" not in str(file)
+        )
+    ]
 
     with zipfile.ZipFile(
         f"{OUTPUTDIRECTORY}{OUTPUTFILENAME}",
@@ -103,7 +101,7 @@ def main() -> None:
 
     end = perf_counter()
 
-    print(f"Bundled in {end - start} seconds")
+    print(f"Bundled in {end - start:.3f} seconds")
 
 
 if "__main__" in __name__:

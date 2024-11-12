@@ -9,7 +9,6 @@ requests = "*"
 [dev-packages]
 ruff = "*"
 python-minifier = "*"
-numpy = "*"
 
 [requires]
 python_version = "3.11"
