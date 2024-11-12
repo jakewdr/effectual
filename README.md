@@ -45,7 +45,6 @@ To make sure there are no disparities between your distribution and developer pa
 
     task onPackageUpdate
 
-To keep your project
 ## Running the project
 
 ### Without bundling
