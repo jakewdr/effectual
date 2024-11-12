@@ -19,10 +19,18 @@ tasks:
 
     format:
         cmds:
-            - pipenv run ruff check --fix src/ --config ruff.toml
-            - pipenv run ruff format src/ --config ruff.toml
+            - pipenv run ruff check --fix --config ruff.toml
+            - pipenv run ruff format --config ruff.toml
 
     setup:
         cmds:
             - pipenv install
             - pipenv lock
+            - pipenv run python scripts/setup.py
+
+    onPackageUpdate:
+        watch: true
+        sources: 
+            - "./Pipfile"
+        cmds:
+            - pipenv run python scripts/setup.py

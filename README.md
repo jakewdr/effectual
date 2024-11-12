@@ -39,6 +39,13 @@ Then navigate to your template folder and enter the following into the command l
 
 This will install all development dependencies into a virtual environment allowing the following command to work
 
+## Keeping your projects up to date
+
+To make sure there are no disparities between your distribution and developer packages run the following command in a separate terminal to automatically add any packages to cache:
+
+    task onPackageUpdate
+
+To keep your project
 ## Running the project
 
 ### Without bundling
@@ -63,7 +70,7 @@ This will lint/format the source files and then bundle the project and any (non 
 ## To be added
 
 - More config granularity
-- Catching more edge cases and more robust programming
+- Catching more edge cases with more robust programming
 
 ## Contributions
 

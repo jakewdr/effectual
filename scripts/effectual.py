@@ -1,6 +1,5 @@
 import os
 import json
-import tomllib
 import pathlib
 import shutil
 import zipfile
@@ -49,36 +48,6 @@ def bundle() -> None:
             if ".py" in str(pathlib.Path(entry))
         ]
     )  # If it is a verified file and is a python file
-
-    with open("./Pipfile", "rb") as file:
-        packages: dict = dict((tomllib.load(file)).get("packages"))
-
-    try:
-        with open("./.effectual_cache/dependencies.json", "x") as file:
-            file.write("{\n\n}")
-    except FileExistsError:
-        pass
-    with open("./.effectual_cache/dependencies.json", "r") as jsonFileRead:
-        if os.stat("./.effectual_cache/dependencies.json").st_size != 0:
-            fileContents: dict = json.load(jsonFileRead)
-        else:
-            fileContents: dict = {}
-        for key in packages:
-            if fileContents == {} or not key in fileContents:
-                print(f"Installing {key}")
-                pathToInstallTo: str = "./.effectual_cache/cachedPackages"
-                if packages.get(key) == "*":
-                    os.system(
-                        f"pip install {key} --quiet --target {pathToInstallTo}"
-                    )
-                else:
-                    os.system(
-                        f"pip install {key}=={packages.get(key)} --quiet --target {pathToInstallTo}"
-                    )
-                fileContents.update({key: packages.get(key)})
-                json.dump(
-                    fileContents, open("./.effectual_cache/dependencies.json", "w")
-                )
 
     requiredFiles = np.array(
         [

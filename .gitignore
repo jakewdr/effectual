@@ -2,6 +2,10 @@
 
 .effectual_cache
 
+# taskfile specfic
+
+.task
+
 # vscode specific
 
 .vscode/

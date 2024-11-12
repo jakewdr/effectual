@@ -1,5 +1,8 @@
 # THIS IS JUST AN EXAMPLE TOML, TWEAK TO YOUR NEEDS
 
+
+include = ["src/**/*.py", "scripts/**/*.py"]
+
 # Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",
