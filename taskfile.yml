@@ -28,7 +28,7 @@ tasks:
             - pipenv lock
             - pipenv run python scripts/setup.py
 
-    onPackageUpdate:
+    background:
         watch: true
         sources: 
             - "./Pipfile"

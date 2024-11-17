@@ -43,7 +43,7 @@ This will install all development dependencies into a virtual environment allowi
 
 To make sure there are no disparities between your distribution and developer packages run the following command in a separate terminal to automatically add any packages to cache:
 
-    task onPackageUpdate
+    task background
 
 ## Running the project
 
@@ -69,7 +69,6 @@ This will lint/format the source files and then bundle the project and any (non 
 ## To be added
 
 - More config granularity
-- Catching more edge cases with more robust programming
 
 ## Contributions
 

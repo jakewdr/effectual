@@ -1,4 +1,4 @@
-from build import minification
+from build import minifyFile
 import tomllib
 import pathlib
 import json
@@ -6,6 +6,11 @@ import os
 
 
 def main() -> None:
+    """Entrypoint to the automatic package installer
+
+    Raises:
+        Exception: In the even the config file can't be found
+    """
     with open("./Pipfile", "rb") as file:
         packages: dict = dict((tomllib.load(file)).get("packages"))
 
@@ -50,7 +55,7 @@ def main() -> None:
                 pass
 
         if str(file).endswith(".py") and MINIFY:
-            minification(str(file))
+            minifyFile(file)
     print("Finished optimizing dependencies")
 
 
