@@ -1,5 +1,5 @@
 from pathlib import Path
-import python_minifier
+from python_minifier import minify
 
 
 def minifyFile(filePath: Path) -> None:
@@ -13,7 +13,7 @@ def minifyFile(filePath: Path) -> None:
     """
     try:
         with filePath.open("r+") as fileRW:
-            minifiedCode = python_minifier.minify(
+            minifiedCode = minify(
                 fileRW.read(),
                 rename_locals=False,
                 rename_globals=False,

@@ -85,9 +85,11 @@ def main() -> None:
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))
     outputFileName: str = configData.get("outputFileName", "bundle.py")
-    compressionLevel: int = configData.get("compressionLevel", 9)  # Default level if not set
+    compressionLevel: int = configData.get(
+        "compressionLevel", 9
+    )  # Default level if not set
     minification: bool = configData.get("minification", True)
-    
+
     if compressionLevel > 9:
         compressionLevel = 9
     elif compressionLevel < 0:
