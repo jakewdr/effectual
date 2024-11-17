@@ -1,8 +1,8 @@
-import json
 import shutil
 from pathlib import Path
 import zipfile
-import python_minifier
+from config import loadConfig
+from minification import minifyFile
 from time import perf_counter
 
 
@@ -16,30 +16,6 @@ def getFileName(path: Path) -> str:
         str: Filename
     """
     return path.name.strip()
-
-
-def minifyFile(filePath: Path) -> None:
-    """Minifies a file from a certain path
-
-    Args:
-        filePath (Path): Path to the file to minify
-
-    Raises:
-        RuntimeError: In the event the file cannot be found or an error has ocurred
-    """
-    try:
-        with filePath.open("r+") as fileRW:
-            minifiedCode = python_minifier.minify(
-                fileRW.read(),
-                rename_locals=False,
-                rename_globals=False,
-                hoist_literals=False,
-            )
-            fileRW.seek(0)
-            fileRW.writelines(minifiedCode)
-            fileRW.truncate()
-    except Exception as e:
-        raise RuntimeError(f"Failed to minify {filePath}: {e}")
 
 
 def bundleFiles(
@@ -95,28 +71,6 @@ def bundleFiles(
 
     endTime = perf_counter()
     print(f"Bundling completed in {endTime - startTime:.3f} seconds")
-
-
-def loadConfig(configPath: Path) -> dict:
-    """Loads a json file and dumps it to a dictionary
-
-    Args:
-        configPath (Path): Path to the configuration .json file
-
-    Raises:
-        RuntimeError: If the json is in an invalid format
-        RuntimeError: If the json path can't be found
-
-    Returns:
-        dict: Dictionary with the contents of the .json file
-    """
-    try:
-        with configPath.open("r") as configFile:
-            return json.load(configFile)
-    except ValueError as e:
-        raise RuntimeError(f"Invalid JSON in {configPath}: {e}")
-    except FileNotFoundError:
-        raise RuntimeError(f"Configuration file {configPath} not found.")
 
 
 def main() -> None:

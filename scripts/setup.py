@@ -1,7 +1,7 @@
-from build import minifyFile
+from minification import minifyFile
+from pathlib import Path
+from config import loadConfig
 import tomllib
-import pathlib
-import json
 import os
 
 
@@ -14,11 +14,8 @@ def main() -> None:
     with open("./Pipfile", "rb") as file:
         packages: dict = dict((tomllib.load(file)).get("packages"))
 
-    with open("./effectual.config.json", "r") as file:
-        try:
-            configData: dict = json.load(file)
-        except ValueError:
-            raise Exception("Failed to load effectual.config.json")
+    configPath: Path = Path("./effectual.config.json")
+    configData: dict = loadConfig(configPath)
 
     MINIFY: bool = configData.get("minification")
 
@@ -40,7 +37,7 @@ def main() -> None:
 
     print("Finished installing current dependencies")
 
-    for file in pathlib.Path("./.effectual_cache/cachedPackages").rglob("*"):
+    for file in Path("./.effectual_cache/cachedPackages").rglob("*"):
         if (
             "__pycache__" in str(file)
             or ".dist-info" in str(file)
