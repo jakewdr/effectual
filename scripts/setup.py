@@ -1,8 +1,28 @@
 from minification import minifyFile
 from pathlib import Path
 from config import loadConfig
+from multiprocessing import Pool
 import rtoml
 import os
+
+
+def optimizeDependencies(file: Path):
+    stringFile: str = str(file)
+    if (
+        "__pycache__" in stringFile
+        or ".dist-info" in stringFile
+        or ".pyc" in stringFile
+        or ".pyd" in stringFile
+        or "normalizer.exe" in stringFile
+        or "py.typed" in stringFile
+    ):
+        try:
+            file.unlink()
+        except PermissionError:
+            pass
+
+        if file.suffix == ".py" and MINIFY:
+            minifyFile(file)
 
 
 def main() -> None:
@@ -13,11 +33,6 @@ def main() -> None:
     """
     with open("./Pipfile", "r", encoding="utf-8") as file:
         packages: dict = dict((rtoml.load(file)).get("packages"))
-
-    configPath: Path = Path("./effectual.config.json")
-    configData: dict = loadConfig(configPath)
-
-    MINIFY: bool = configData.get("minification")
 
     arguments: list[str] = ["--no-compile", "--quiet", "--upgrade", "--no-binary=none"]
 
@@ -53,8 +68,17 @@ def main() -> None:
 
         if str(file).endswith(".py") and MINIFY:
             minifyFile(file)
-    print("Finished optimizing dependencies")
+
+    with Pool() as pool:
+        pool.map(
+            optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
+        )
+        print("Finished optimizing dependencies")
 
 
 if __name__ == "__main__":
+    configPath: Path = Path("./effectual.config.json")
+    configData: dict = loadConfig(configPath)
+
+    MINIFY: bool = configData.get("minification")
     main()
