@@ -11,7 +11,7 @@ def main() -> None:
     Raises:
         Exception: In the even the config file can't be found
     """
-    with open("./Pipfile", "r") as file:
+    with open("./Pipfile", "r", encoding="utf-8") as file:
         packages: dict = dict((rtoml.load(file)).get("packages"))
 
     configPath: Path = Path("./effectual.config.json")

@@ -6,18 +6,6 @@ from minification import minifyFile
 from time import perf_counter
 
 
-def getFileName(path: Path) -> str:
-    """Gets the filename from a path
-
-    Args:
-        path (Path): Pathlib path to file
-
-    Returns:
-        str: Filename
-    """
-    return path.name.strip()
-
-
 def bundleFiles(
     sourceDirectory: Path,
     outputDirectory: Path,
@@ -45,7 +33,7 @@ def bundleFiles(
     pythonFiles: list[Path | str] = []
     for filePath in sourceDirectory.glob("*.py"):
         try:
-            destination: Path | str = outputDirectory / getFileName(filePath)
+            destination: Path | str = outputDirectory / filePath.name.strip()
             shutil.copyfile(filePath, destination)
             pythonFiles.append(destination)
         except PermissionError:
@@ -66,7 +54,7 @@ def bundleFiles(
         for pyFile in pythonFiles:
             if minification:
                 minifyFile(pyFile)
-            bundler.write(pyFile, arcname=getFileName(pyFile))
+            bundler.write(pyFile, arcname=pyFile.name.strip())
             pyFile.unlink()
 
     endTime = perf_counter()

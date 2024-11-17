@@ -12,7 +12,7 @@ def minifyFile(filePath: Path) -> None:
         RuntimeError: In the event the file cannot be found or an error has ocurred
     """
     try:
-        with filePath.open("r+") as fileRW:
+        with filePath.open("r+", encoding="utf-8") as fileRW:
             minifiedCode = minify(
                 fileRW.read(),
                 rename_locals=False,

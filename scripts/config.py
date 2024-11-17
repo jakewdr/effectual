@@ -16,7 +16,7 @@ def loadConfig(configPath: Path) -> dict:
         dict: Dictionary with the contents of the .json file
     """
     try:
-        with configPath.open("r") as configFile:
+        with configPath.open("r", encoding="utf-8") as configFile:
             return simplejson.load(configFile)
     except ValueError as e:
         raise RuntimeError(f"Invalid JSON in {configPath}: {e}")
