@@ -66,10 +66,10 @@ def bundleFiles(
 
     startTime = perf_counter()
 
-    pythonFiles = []
+    pythonFiles: list[Path | str] = []
     for filePath in sourceDirectory.glob("*.py"):
         try:
-            destination = outputDirectory / getFileName(filePath)
+            destination: Path | str = outputDirectory / getFileName(filePath)
             shutil.copyfile(filePath, destination)
             pythonFiles.append(destination)
         except PermissionError:
@@ -81,12 +81,12 @@ def bundleFiles(
         compression=zipfile.ZIP_DEFLATED,
         compresslevel=compressionLevel,
     ) as bundler:
-        print("Bundling dependencies...")
+        print("Bundling dependencies")
         for cachedFile in Path("./.effectual_cache/cachedPackages").rglob("*"):
             arcName = cachedFile.relative_to(".effectual_cache/cachedPackages")
             bundler.write(cachedFile, arcname=arcName)
 
-        print("Bundling Python source files...")
+        print("Bundling Python source files")
         for pyFile in pythonFiles:
             if minification:
                 minifyFile(pyFile)
