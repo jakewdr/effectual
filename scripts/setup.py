@@ -7,6 +7,11 @@ import os
 
 
 def optimizeDependencies(file: Path):
+    """Removes files not needed and if minification is true minifies
+
+    Args:
+        file (Path): Path to a file in the effectual cache
+    """
     stringFile: str = str(file)
     if (
         "__pycache__" in stringFile
