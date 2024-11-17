@@ -128,11 +128,11 @@ def main() -> None:
     configPath = Path("./effectual.config.json")
     configData = loadConfig(configPath)
 
-    sourceDirectory = Path(configData.get("sourceDirectory", ""))
-    outputDirectory = Path(configData.get("outputDirectory", ""))
-    outputFileName = configData.get("outputFileName", "output.zip")
-    compressionLevel = configData.get("compressionLevel", 5)  # Default level if not set
-    minification = configData.get("minification", False)
+    sourceDirectory = Path(configData.get("sourceDirectory", "src/"))
+    outputDirectory = Path(configData.get("outputDirectory", "out/"))
+    outputFileName = configData.get("outputFileName", "bundle.py")
+    compressionLevel = configData.get("compressionLevel", 9)  # Default level if not set
+    minification = configData.get("minification", True)
 
     if not sourceDirectory.is_dir():
         raise RuntimeError(
