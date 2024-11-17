@@ -39,7 +39,13 @@ def main() -> None:
     with open("./Pipfile", "r", encoding="utf-8") as file:
         packages: dict = dict((rtoml.load(file)).get("packages"))
 
-    arguments: list[str] = ["--no-compile", "--quiet", "--upgrade", "--no-binary=none"]
+    arguments: list[str] = [
+        "--no-compile",
+        "--quiet",
+        "--upgrade",
+        "--upgrade-strategy=only-if-needed",
+        "--no-binary=none",
+    ]
 
     argumentString: str = " ".join(arguments)
 
