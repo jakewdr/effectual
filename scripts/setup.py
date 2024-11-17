@@ -1,7 +1,7 @@
 from minification import minifyFile
 from pathlib import Path
 from config import loadConfig
-import tomllib
+import rtoml
 import os
 
 
@@ -11,8 +11,8 @@ def main() -> None:
     Raises:
         Exception: In the even the config file can't be found
     """
-    with open("./Pipfile", "rb") as file:
-        packages: dict = dict((tomllib.load(file)).get("packages"))
+    with open("./Pipfile", "r") as file:
+        packages: dict = dict((rtoml.load(file)).get("packages"))
 
     configPath: Path = Path("./effectual.config.json")
     configData: dict = loadConfig(configPath)
