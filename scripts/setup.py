@@ -54,11 +54,11 @@ def main() -> None:
         pathToInstallTo: str = "./.effectual_cache/cachedPackages"
         if packages.get(key) == "*":
             os.system(
-                f"pipenv run pip install {key} {argumentString} --target {pathToInstallTo}"
+                f"pipenv run pip3 install {key} {argumentString} --target {pathToInstallTo}"
             )
         else:
             os.system(
-                f"pipenv run pip install {key}=={packages.get(key)} {argumentString} --target {pathToInstallTo}"
+                f"pipenv run pip3 install {key}=={packages.get(key)} {argumentString} --target {pathToInstallTo}"
             )
 
     print("Finished installing current dependencies")

@@ -69,6 +69,7 @@ This will lint/format the source files and then bundle the project and any (non 
 ## To be added
 
 - More config granularity
+- Make the taskfile more platform agnostic
 - Smaller bundle sizes by only incorporating required parts of packages
 
 ## Contributions
