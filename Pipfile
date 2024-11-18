@@ -11,6 +11,7 @@ ruff = "*"
 python-minifier = "*"
 simplejson = "*"
 rtoml = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.11"

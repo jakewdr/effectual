@@ -28,13 +28,15 @@ tasks:
     lint:
         cmds:
             - pipenv run ruff check --fix --config ruff.toml
+            - pipenv run mypy src/__main__.py
 
     setup:
         cmds:
             - pipenv install
+            - pipenv run python scripts/setup.py
+            - pipenv run mypy --install-types
             - pipenv lock
             - pipenv sync
-            - pipenv run python scripts/setup.py
 
     background:
         watch: true
@@ -42,3 +44,4 @@ tasks:
             - "./Pipfile"
         cmds:
             - pipenv run python scripts/setup.py
+            - pipenv run mypy --install-types
