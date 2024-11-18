@@ -65,7 +65,7 @@ def main() -> None:
     """Entrypoint
 
     Raises:
-        RuntimeError: In the even there is no source directory
+        RuntimeError: In the event there is no source directory
     """
     configPath = Path("./effectual.config.json")
     configData = loadConfig(configPath)

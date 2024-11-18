@@ -59,7 +59,7 @@ This will use the packages stored in the pipenv environment and lint/format the 
 
 To bundle the source files and run the output
 
-    task dist
+    task run
 
 This will lint/format the source files and then bundle the project and any (non development) dependencies specified in the Pipfile. *Note by default I've included requests for the template project, if you don't need this remove it using the following commands*
 
