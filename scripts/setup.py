@@ -3,6 +3,7 @@ from termcolor import colored
 from pathlib import Path
 from config import loadConfig
 from multiprocessing import Pool
+import shutil
 import rtoml
 import os
 
@@ -43,16 +44,16 @@ def main() -> None:
     arguments: list[str] = [
         "--no-compile",
         "--quiet",
-        "--upgrade",
-        "--upgrade-strategy=only-if-needed",
         "--no-binary=none",
     ]
-
+    
+    pathToInstallTo: str = "./.effectual_cache/cachedPackages"
     argumentString: str = " ".join(arguments)
+
+    shutil.rmtree(pathToInstallTo)
 
     for key in packages:
         print(f"{colored('Installing', 'blue')} {key}")
-        pathToInstallTo: str = "./.effectual_cache/cachedPackages"
         if packages.get(key) == "*":
             os.system(
                 f"pipenv run pip3 install {key} {argumentString} --target {pathToInstallTo}"
@@ -62,13 +63,11 @@ def main() -> None:
                 f"pipenv run pip3 install {key}=={packages.get(key)} {argumentString} --target {pathToInstallTo}"
             )
 
-    print(colored("Finished installing current dependencies", "light_magenta"))
-
     with Pool() as pool:
         pool.map(
             optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
         )
-        print(colored("Finished optimizing dependencies", "light_magenta"))
+        print(f"{colored('Finished optimizing', 'light_magenta')} {','.join(packages)}")
 
 
 if __name__ == "__main__":

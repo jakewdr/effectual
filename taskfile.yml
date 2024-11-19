@@ -32,11 +32,10 @@ tasks:
 
     setup:
         cmds:
-            - pipenv install
+            - pipenv --quiet install
             - pipenv run python scripts/setup.py
             - pipenv run mypy --install-types
-            - pipenv lock
-            - pipenv sync
+            - pipenv --quiet lock
 
     background:
         watch: true
