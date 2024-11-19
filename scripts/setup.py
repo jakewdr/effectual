@@ -64,10 +64,10 @@ def main() -> None:
             )
 
     with Pool() as pool:
+        print(f"{colored('[OPTIMIZING]', 'light_magenta')} || {','.join(packages)}")
         pool.map(
             optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
         )
-        print(f"{colored('[OPTIMIZING]', 'light_magenta')} || {','.join(packages)}")
 
 
 if __name__ == "__main__":
