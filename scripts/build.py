@@ -75,7 +75,7 @@ def bundleFiles(
     print(
         f"{colored('[OUTPUT]', 'blue')}   || {outputPath.name} {colored(fileSize, 'yellow')}"
     )
-    print(colored(f"Completed in {endTime - startTime:.3f} seconds", "light_magenta"))
+    print(colored(f"Completed in {endTime - startTime:.3f}s", "light_magenta"))
 
 
 def main() -> None:
