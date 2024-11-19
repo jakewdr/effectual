@@ -25,7 +25,7 @@ def bundleFiles(
         minification (bool): If the dependencies and scripts should be minified
     """
     outputDirectory.mkdir(parents=True, exist_ok=True)
-    outputPath = outputDirectory / outputFileName
+    outputPath: Path = outputDirectory / outputFileName
 
     if outputPath.exists():
         outputPath.unlink()

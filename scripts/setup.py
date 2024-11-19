@@ -64,7 +64,7 @@ def main() -> None:
             )
 
     with Pool() as pool:
-        print(f"{colored('[OPTIMIZING]', 'light_magenta')} || {','.join(packages)}")
+        print(f"{colored('[OPTIMIZING]', 'blue')} || {','.join(packages)}")
         pool.map(
             optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
         )
