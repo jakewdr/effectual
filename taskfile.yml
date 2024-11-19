@@ -39,7 +39,7 @@ tasks:
     cache:
         cmds:
             - pipenv run python scripts/setup.py
-            - pipenv run deadcode ./.effectual_cache/cachedPackages --fix --quiet
+            - pipenv run deadcode ./.effectual_cache/cachedPackages --fix --count
             - pipenv run mypy --install-types
 
     background:
