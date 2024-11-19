@@ -28,7 +28,7 @@ tasks:
     lint:
         cmds:
             - pipenv run ruff check --fix --config ruff.toml
-            - pipenv run mypy src/__main__.py
+            - pipenv run mypy src/
 
     setup:
         cmds:

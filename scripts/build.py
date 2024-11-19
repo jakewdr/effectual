@@ -32,10 +32,10 @@ def bundleFiles(
 
     startTime = perf_counter()
 
-    pythonFiles: list[Path | str] = []
+    pythonFiles: list[Path] = []
     for filePath in sourceDirectory.glob("*.py"):
         try:
-            destination: Path | str = outputDirectory / filePath.name.strip()
+            destination: Path = outputDirectory / filePath.name.strip()
             shutil.copyfile(filePath, destination)
             pythonFiles.append(destination)
         except PermissionError:

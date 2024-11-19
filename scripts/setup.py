@@ -46,7 +46,7 @@ def main() -> None:
         "--quiet",
         "--no-binary=none",
     ]
-    
+
     pathToInstallTo: str = "./.effectual_cache/cachedPackages"
     argumentString: str = " ".join(arguments)
 
