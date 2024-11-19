@@ -39,7 +39,7 @@ def bundleFiles(
             shutil.copyfile(filePath, destination)
             pythonFiles.append(destination)
         except PermissionError:
-            print(f"Skipped {filePath} due to permission error.")
+            print(colored(f"Skipped {filePath} due to permission error.", "red"))
 
     with zipfile.ZipFile(
         outputPath,
@@ -91,7 +91,10 @@ def main() -> None:
 
     if not sourceDirectory.is_dir():
         raise RuntimeError(
-            f"Source directory {sourceDirectory} does not exist or is not a directory."
+            colored(
+                f"Source directory {sourceDirectory} does not exist or is not a directory.",
+                "red",
+            )
         )
 
     bundleFiles(

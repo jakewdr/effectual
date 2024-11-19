@@ -1,4 +1,5 @@
 from minification import minifyFile
+from termcolor import colored
 from pathlib import Path
 from config import loadConfig
 from multiprocessing import Pool
@@ -50,7 +51,7 @@ def main() -> None:
     argumentString: str = " ".join(arguments)
 
     for key in packages:
-        print(f"Installing {key}")
+        print(f"{colored('Installing', 'blue')} {key}")
         pathToInstallTo: str = "./.effectual_cache/cachedPackages"
         if packages.get(key) == "*":
             os.system(
@@ -61,13 +62,13 @@ def main() -> None:
                 f"pipenv run pip3 install {key}=={packages.get(key)} {argumentString} --target {pathToInstallTo}"
             )
 
-    print("Finished installing current dependencies")
+    print(colored("Finished installing current dependencies", "light_magenta"))
 
     with Pool() as pool:
         pool.map(
             optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
         )
-        print("Finished optimizing dependencies")
+        print(colored("Finished optimizing dependencies", "light_magenta"))
 
 
 if __name__ == "__main__":
