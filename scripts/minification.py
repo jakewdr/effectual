@@ -9,7 +9,7 @@ def minifyFile(filePath: Path) -> None:
         filePath (Path): Path to the file to minify
 
     Raises:
-        RuntimeError: In the event the file cannot be found or an error has ocurred
+        RuntimeError: In the event the file cannot be found or an error has occurred
     """
     try:
         with filePath.open("r+", encoding="utf-8") as fileRW:
