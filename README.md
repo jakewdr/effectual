@@ -45,6 +45,10 @@ To make sure there are no disparities between your distribution and developer pa
 
     task background
 
+You could also run the following command manually every time you add a new package to pipenv
+
+    task cache
+
 ## Running the project
 
 ### Without bundling
