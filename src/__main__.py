@@ -5,6 +5,7 @@ import os
 
 
 def main() -> None:
+    versionCheck()
     print("Hello World")
     bundleCheck()
     url: str = "https://httpbin.org/ip"
