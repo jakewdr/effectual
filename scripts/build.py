@@ -1,8 +1,10 @@
+import os
 import shutil
 from pathlib import Path
 import zipfile
 from config import loadConfig
 from minification import minifyFile
+from termcolor import colored
 from time import perf_counter
 
 
@@ -45,20 +47,24 @@ def bundleFiles(
         compression=zipfile.ZIP_DEFLATED,
         compresslevel=compressionLevel,
     ) as bundler:
-        print("Bundling dependencies")
+        print(f"{colored('Bundling', 'blue')} Dependencies")
         for cachedFile in Path("./.effectual_cache/cachedPackages").rglob("*"):
             arcName = cachedFile.relative_to(".effectual_cache/cachedPackages")
             bundler.write(cachedFile, arcname=arcName)
 
-        print("Bundling Python source files")
         for pyFile in pythonFiles:
             if minification:
                 minifyFile(pyFile)
+            fileSize = f"{str(round(os.path.getsize(pyFile) / 1024, 3))}kB"
+
+            print(
+                f"{colored('Bundling', 'blue')} {pyFile.name} {colored(fileSize, 'yellow')}"
+            )
             bundler.write(pyFile, arcname=pyFile.name.strip())
             pyFile.unlink()
 
     endTime = perf_counter()
-    print(f"Bundling completed in {endTime - startTime:.3f} seconds")
+    print(colored(f"Completed in {endTime - startTime:.3f} seconds", "light_magenta"))
 
 
 def main() -> None:
