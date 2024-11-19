@@ -4,7 +4,7 @@ from pathlib import Path
 import zipfile
 from config import loadConfig
 from minification import minifyFile
-from termcolor import colored
+from colors import tagColor, fileColor, errorColor, folderColor, completeColor
 from time import perf_counter
 
 
@@ -39,7 +39,7 @@ def bundleFiles(
             shutil.copyfile(filePath, destination)
             pythonFiles.append(destination)
         except PermissionError:
-            print(colored(f"Skipped {filePath} due to permission error.", "red"))
+            print(errorColor(f"Skipped {filePath} due to permission error.", "red"))
 
     with zipfile.ZipFile(
         outputPath,
@@ -55,27 +55,20 @@ def bundleFiles(
             arcName = cachedFile.relative_to(cachePath)
             bundler.write(cachedFile, arcname=arcName)
 
-        totalSize: str = colored(f"{round(totalSize/ 1024, 3)}kB", "yellow")
-        print(f"{colored('[BUNDLING]', 'blue')} || Pipenv dependencies {totalSize}")
+        print(f"{tagColor('bundling')} || Pipenv dependencies {folderColor(totalSize)}")
 
         for pyFile in pythonFiles:
             if minification:
                 minifyFile(pyFile)
 
-            fileSize = colored(
-                f"{str(round(os.path.getsize(pyFile) / 1024, 3))}kB", "yellow"
-            )
-
-            print(f"{colored('[BUNDLING]', 'blue')} || {pyFile.name} {fileSize}")
+            print(f"{tagColor('bundling')} || {pyFile.name} {fileColor(pyFile)}")
             bundler.write(pyFile, arcname=pyFile.name.strip())
             pyFile.unlink()
 
     endTime = perf_counter()
-    fileSize = f"{str(round(os.path.getsize(outputPath) / 1024, 3))}kB"
-    print(
-        f"{colored('[OUTPUT]', 'blue')}   || {outputPath.name} {colored(fileSize, 'yellow')}"
-    )
-    print(colored(f"Completed in {endTime - startTime:.3f}s", "light_magenta"))
+
+    print(f"{tagColor('OUTPUT')}   || {outputPath.name} {fileColor(outputPath)}")
+    print(completeColor(f"Bundled in {endTime - startTime:.3f}s"))
 
 
 def main() -> None:
@@ -102,9 +95,8 @@ def main() -> None:
 
     if not sourceDirectory.is_dir():
         raise RuntimeError(
-            colored(
-                f"Source directory {sourceDirectory} does not exist or is not a directory.",
-                "red",
+            errorColor(
+                f"Source directory {sourceDirectory} does not exist or is not a directory."
             )
         )
 

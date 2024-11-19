@@ -1,8 +1,9 @@
 from minification import minifyFile
-from termcolor import colored
 from pathlib import Path
 from config import loadConfig
+from time import perf_counter
 from multiprocessing import Pool
+from colors import tagColor, completeColor
 import shutil
 import rtoml
 import os
@@ -50,10 +51,11 @@ def main() -> None:
     pathToInstallTo: str = "./.effectual_cache/cachedPackages"
     argumentString: str = " ".join(arguments)
 
-    shutil.rmtree(pathToInstallTo)
+    if Path(pathToInstallTo).exists():
+        shutil.rmtree(pathToInstallTo)
 
     for key in packages:
-        print(f"{colored('[INSTALLING]', 'blue')} || {key}")
+        print(f"{tagColor('installing')} || {key}")
         if packages.get(key) == "*":
             os.system(
                 f"pipenv run pip3 install {key} {argumentString} --target {pathToInstallTo}"
@@ -64,7 +66,7 @@ def main() -> None:
             )
 
     with Pool() as pool:
-        print(f"{colored('[OPTIMIZING]', 'blue')} || {','.join(packages)}")
+        print(f"{tagColor('optimizing')} || {','.join(packages)}")
         pool.map(
             optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
         )
@@ -75,4 +77,7 @@ if __name__ == "__main__":
     configData: dict = loadConfig(configPath)
 
     MINIFY: bool = configData.get("minification")
+    startTime = perf_counter()
     main()
+    endTime = perf_counter()
+    print(completeColor(f"Completed in {endTime - startTime:.3f}s"))
