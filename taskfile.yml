@@ -33,14 +33,17 @@ tasks:
     setup:
         cmds:
             - pipenv --quiet install
-            - pipenv run python scripts/setup.py
-            - pipenv run mypy --install-types
+            - task: cache
             - pipenv --quiet lock
+
+    cache:
+        cmds:
+            - pipenv run python scripts/setup.py
+            - pipenv run deadcode ./.effectual_cache/cachedPackages --fix --quiet
+            - pipenv run mypy --install-types
 
     background:
         watch: true
+        deps: [cache]
         sources: 
             - "./Pipfile"
-        cmds:
-            - pipenv run python scripts/setup.py
-            - pipenv run mypy --install-types
