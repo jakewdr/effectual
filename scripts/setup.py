@@ -63,23 +63,6 @@ def main() -> None:
 
     print("Finished installing current dependencies")
 
-    for file in Path("./.effectual_cache/cachedPackages").rglob("*"):
-        if (
-            "__pycache__" in str(file)
-            or ".dist-info" in str(file)
-            or ".pyc" in str(file)
-            or ".pyd" in str(file)
-            or "normalizer.exe" in str(file)
-            or "py.typed" in str(file)
-        ):
-            try:
-                os.remove(str(file))
-            except PermissionError:
-                pass
-
-        if str(file).endswith(".py") and MINIFY:
-            minifyFile(file)
-
     with Pool() as pool:
         pool.map(
             optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
