@@ -47,23 +47,34 @@ def bundleFiles(
         compression=zipfile.ZIP_DEFLATED,
         compresslevel=compressionLevel,
     ) as bundler:
-        print(f"{colored('Bundling', 'blue')} Dependencies")
-        for cachedFile in Path("./.effectual_cache/cachedPackages").rglob("*"):
-            arcName = cachedFile.relative_to(".effectual_cache/cachedPackages")
+        cachePath: Path = Path("./.effectual_cache/cachedPackages")
+
+        totalSize: int = int(0)
+        for cachedFile in cachePath.rglob("*"):
+            totalSize += os.path.getsize(cachedFile)
+            arcName = cachedFile.relative_to(cachePath)
             bundler.write(cachedFile, arcname=arcName)
+
+        totalSize: str = colored(f"{round(totalSize/ 1024, 3)}kB", "yellow")
+        print(f"{colored('[BUNDLING]', 'blue')} || Pipenv dependencies {totalSize}")
 
         for pyFile in pythonFiles:
             if minification:
                 minifyFile(pyFile)
-            fileSize = f"{str(round(os.path.getsize(pyFile) / 1024, 3))}kB"
 
-            print(
-                f"{colored('Bundling', 'blue')} {pyFile.name} {colored(fileSize, 'yellow')}"
+            fileSize = colored(
+                f"{str(round(os.path.getsize(pyFile) / 1024, 3))}kB", "yellow"
             )
+
+            print(f"{colored('[BUNDLING]', 'blue')} || {pyFile.name} {fileSize}")
             bundler.write(pyFile, arcname=pyFile.name.strip())
             pyFile.unlink()
 
     endTime = perf_counter()
+    fileSize = f"{str(round(os.path.getsize(outputPath) / 1024, 3))}kB"
+    print(
+        f"{colored('[OUTPUT]', 'blue')}   || {outputPath.name} {colored(fileSize, 'yellow')}"
+    )
     print(colored(f"Completed in {endTime - startTime:.3f} seconds", "light_magenta"))
 
 

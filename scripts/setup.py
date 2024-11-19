@@ -53,7 +53,7 @@ def main() -> None:
     shutil.rmtree(pathToInstallTo)
 
     for key in packages:
-        print(f"{colored('Installing', 'blue')} {key}")
+        print(f"{colored('[INSTALLING]', 'blue')} || {key}")
         if packages.get(key) == "*":
             os.system(
                 f"pipenv run pip3 install {key} {argumentString} --target {pathToInstallTo}"
@@ -67,7 +67,7 @@ def main() -> None:
         pool.map(
             optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
         )
-        print(f"{colored('Finished optimizing', 'light_magenta')} {','.join(packages)}")
+        print(f"{colored('[OPTIMIZING]', 'light_magenta')} || {','.join(packages)}")
 
 
 if __name__ == "__main__":
