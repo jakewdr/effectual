@@ -45,7 +45,7 @@ To make sure there are no disparities between your distribution and developer pa
 
     task background
 
-You could also run the following command manually every time you add a new package to pipenv
+You could also run the following command manually every time you add a new package to Pipenv: 
 
     task cache
 
@@ -53,7 +53,7 @@ You could also run the following command manually every time you add a new packa
 
 ### Without bundling
 
-To run the source without bundling you can use
+To run the source without bundling you can use:
 
     task dev
 
@@ -61,26 +61,26 @@ This will use the packages stored in the pipenv environment and lint/format the 
 
 ### With bundling
 
-To bundle the source files and run the output
+To bundle the source files and run the output:
 
     task run
 
-This will lint/format the source files and then bundle the project and any (non development) dependencies specified in the Pipfile. *Note by default I've included requests for the template project, if you don't need this remove it using the following commands*
+This will lint/format the source files and then bundle the project and any (non development) dependencies specified in the Pipfile. *Note by default I've included requests for the template project, if you don't need this remove it using the following commands*:
 
     pipenv uninstall requests
     pipfile lock
 
 ## Building
 
-To build an output bundle and not run it simply enter
+To build an output bundle and not run it simply enter:
 
     task build
 
 ## To be added
 
+- Treeshaking
 - More config granularity
-- Make the taskfile more platform agnostic
-- Smaller bundle sizes by only incorporating required parts of packages
+- Make the Taskfile and bundle more platform agnostic
 
 ## Contributions
 
