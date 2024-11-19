@@ -6,7 +6,8 @@ import os
 def main() -> None:
     print("Hello World")
     bundleCheck()
-    response = requests.get("https://httpbin.org/ip")  # Using requests from the bundle!
+    url: str = "https://httpbin.org/ip"
+    response = requests.get(url)  # Using requests from the bundle!
     print("Your IP is {0}".format(response.json()["origin"]))
     file2.test()  # Example of using a local file
 
