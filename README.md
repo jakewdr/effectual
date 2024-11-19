@@ -27,7 +27,7 @@ This can be done by pressing the green 'use this template button' on GitHub or r
 
     git clone https://github.com/jakewdr/effectual <outputDirectory>
 
-### pipenv and installing packages
+### Pipenv and installing packages
 
 To install Pipenv simply run [(you made need to add the folder to PATH in windows)](https://github.com/Atri-Labs/atrilabs-engine/discussions/586):
 
