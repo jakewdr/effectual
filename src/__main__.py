@@ -1,5 +1,6 @@
 import requests
 import file2
+import sys
 import os
 
 
@@ -21,6 +22,11 @@ def bundleCheck() -> None:
         print("Running in bundle!")
     else:
         print("Running in developer mode!")
+
+
+def versionCheck() -> None:
+    if sys.version_info[0] != 3 and sys.version_info[1] != 11:
+        raise EnvironmentError("This bundle was made for python version 3.11!")
 
 
 if __name__ == "__main__":
