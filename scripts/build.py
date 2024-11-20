@@ -52,9 +52,7 @@ def bundleFiles(
             print(f"{tagColor('bundling')} || {pyFile.name} {fileColor(pyFile)}")
             if minification:
                 fileContents = minifyToString(pyFile)
-                bundler.writestr(
-                    zinfo_or_arcname=pyFile.name, data=fileContents
-                )
+                bundler.writestr(zinfo_or_arcname=pyFile.name, data=fileContents)
             else:
                 bundler.write(pyFile, arcname=pyFile.name)
 

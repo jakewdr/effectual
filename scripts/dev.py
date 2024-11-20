@@ -17,7 +17,7 @@ def main() -> None:
 
     with zipfile.ZipFile(outputFile, "w") as bundler:
         for pyFile in sourceDirectory.glob("*.py"):
-            bundler.write(pyFile, arcname=pyFile.name.strip())
+            bundler.write(pyFile, arcname=pyFile.name)
 
     subprocess.run(["pipenv", "run", "python", outputFile], check=True)
 
