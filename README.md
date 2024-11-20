@@ -9,7 +9,7 @@ Sometimes you want a single portable python file without having to make a platfo
 ## When not to use this
 
 - The python package requires access to specific files like [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter/wiki/Packaging#windows-pyinstaller-auto-py-to-exe) and [Pillow](https://python-pillow.org/)
-- Incredibly version specific code, for example something that won't run on a slightly different python version
+- Incredibly version specific code, for example something that won't run on a slightly different python version or operating system
 
 ## Setup
 
@@ -47,7 +47,7 @@ To run the source in development mode you can use:
 
     task dev
 
-This will create a bundle in cache and update and rerun every time the source files are changed (if you keep the terminal running)
+This will create a bundle in cache and update and rerun every time the source files are changed (if you keep the terminal running), note this will use the dependencies in the virtual env and not effectual's own system
 
 This is like what [esBuild](https://esbuild.github.io/) does for vite
 
