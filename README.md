@@ -79,6 +79,7 @@ To build an output bundle and not run it simply enter:
 ## To be added
 
 - Treeshaking
+- Docker integration
 - More config granularity
 - Make the Taskfile and bundle more platform agnostic
 
