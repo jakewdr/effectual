@@ -39,7 +39,7 @@ def bundleFiles(
             shutil.copyfile(filePath, destination)
             pythonFiles.append(destination)
         except PermissionError:
-            print(errorColor(f"Skipped {filePath} due to permission error.", "red"))
+            print(errorColor(f"Skipped {filePath} due to permission error."))
 
     with zipfile.ZipFile(
         outputPath,
