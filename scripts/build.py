@@ -53,10 +53,10 @@ def bundleFiles(
             if minification:
                 fileContents = minifyToString(pyFile)
                 bundler.writestr(
-                    zinfo_or_arcname=pyFile.name.strip(), data=fileContents
+                    zinfo_or_arcname=pyFile.name, data=fileContents
                 )
             else:
-                bundler.write(pyFile, arcname=pyFile.name.strip())
+                bundler.write(pyFile, arcname=pyFile.name)
 
     endTime = perf_counter()
 

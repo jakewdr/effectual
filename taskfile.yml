@@ -8,14 +8,22 @@ tasks:
             - python dist/bundle.py
 
     dev:
-        deps: [check]
         cmds:
-            - pipenv run python src/__main__.py
+            - pipenv run python scripts/dev.py -OO
+            - task hmr -w
+
+    hmr:
+        watch: true
+        cmds:
+            - pipenv run python scripts/dev.py -OO
+        sources:
+            - src/**/**
 
     build:
         aliases: [dist]
         deps: [check]
         cmds:
+            - task: cache
             - defer: pipenv run python scripts/build.py
 
     check:
@@ -40,9 +48,3 @@ tasks:
         cmds:
             - pipenv run python scripts/setup.py
             - pipenv run mypy --install-types
-
-    background:
-        watch: true
-        deps: [cache]
-        sources: 
-            - "./Pipfile"

@@ -9,7 +9,7 @@ Sometimes you want a single portable python file without having to make a platfo
 ## When not to use this
 
 - The python package requires access to specific files like [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter/wiki/Packaging#windows-pyinstaller-auto-py-to-exe) and [Pillow](https://python-pillow.org/)
-- Incredibly version specific code, for example something that won't run on a slightly different version, this is because the user will need to have the exact same python version
+- Incredibly version specific code, for example something that won't run on a slightly different python version
 
 ## Setup
 
@@ -39,36 +39,27 @@ Then navigate to your template folder and enter the following into the command l
 
 This will install all development dependencies into a virtual environment allowing the following commands to work
 
-## Keeping your projects up to date
-
-To make sure there are no disparities between your distribution and developer packages run the following command in a separate terminal to automatically add any packages to cache:
-
-    task background
-
-You could also run the following command manually every time you add a new package to Pipenv: 
-
-    task cache
-
 ## Running the project
 
-### Without bundling
+### In development
 
-To run the source without bundling you can use:
+To run the source in development mode you can use:
 
     task dev
 
-This will use the packages stored in the pipenv environment and lint/format the source files
+This will create a bundle in cache and update and rerun every time the source files are changed (if you keep the terminal running)
 
-### With bundling
+This is like what [esBuild](https://esbuild.github.io/) does for vite
+
+### For production
 
 To bundle the source files and run the output:
 
     task run
 
-This will lint/format the source files and then bundle the project and any (non development) dependencies specified in the Pipfile. *Note by default I've included requests for the template project, if you don't need this remove it using the following commands*:
+This will lint/format the source files, install external dependencies and then bundle the project and any (non development) dependencies specified in the Pipfile.
 
-    pipenv uninstall requests
-    pipfile lock
+This is like what what [Rollup](https://rollupjs.org/) does for vite
 
 ## Building
 
