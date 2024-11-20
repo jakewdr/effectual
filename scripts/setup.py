@@ -56,14 +56,11 @@ def main() -> None:
 
     for key in packages:
         print(f"{tagColor('installing')} || {key}")
-        if packages.get(key) == "*":
-            os.system(
-                f"pipenv run pip3 install {key} {argumentString} --target {pathToInstallTo}"
-            )
-        else:
-            os.system(
-                f"pipenv run pip3 install {key}=={packages.get(key)} {argumentString} --target {pathToInstallTo}"
-            )
+        if packages.get(key) != "*":
+            key = f"{key}=={packages.get(key)}"
+        os.system(
+            f"pipenv run pip3 install {key} {argumentString} --target {pathToInstallTo}"
+        )
 
     with Pool() as pool:
         print(f"{tagColor('optimizing')} || {','.join(packages)}")
