@@ -1,7 +1,7 @@
 from pathlib import Path
 import zipfile
 from config import loadConfig
-from minification import minifyFile
+from minification import minifyToString
 from colors import tagColor, fileColor, errorColor, folderColor, completeColor
 from time import perf_counter
 
@@ -47,16 +47,14 @@ def bundleFiles(
         print(f"{tagColor('bundling')} || Pipenv dependencies {folderColor(totalSize)}")
 
         for pyFile in sourceDirectory.glob("*.py"):
-            if minification:
-                outputFilePath: Path = Path(outputDirectory / pyFile.name.strip())
-                minifyFile(pyFile, outputFilePath)
-                pyFile: Path = outputFilePath
-
             print(f"{tagColor('bundling')} || {pyFile.name} {fileColor(pyFile)}")
-            bundler.write(pyFile, arcname=pyFile.name.strip())
-
             if minification:
-                pyFile.unlink()
+                fileContents = minifyToString(pyFile)
+                bundler.writestr(
+                    zinfo_or_arcname=pyFile.name.strip(), data=fileContents
+                )
+            else:
+                bundler.write(pyFile, arcname=pyFile.name.strip())
 
     endTime = perf_counter()
 
