@@ -2,7 +2,7 @@ from pathlib import Path
 import zipfile
 from config import loadConfig
 from minification import minifyToString
-from colors import tagColor, fileColor, errorColor, folderColor, completeColor
+from colors import tagColor, fileColor, folderColor, completeColor
 from time import perf_counter
 
 
