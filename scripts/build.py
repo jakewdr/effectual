@@ -81,9 +81,7 @@ def main() -> None:
 
     if not sourceDirectory.is_dir():
         raise RuntimeError(
-            errorColor(
-                f"Source directory {sourceDirectory} does not exist or is not a directory."
-            )
+            f"Source directory {sourceDirectory} does not exist or is not a directory."
         )
 
     bundleFiles(
