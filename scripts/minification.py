@@ -2,7 +2,7 @@ from pathlib import Path
 from python_minifier import minify
 
 
-def minifyFile(filePath: Path) -> None:
+def minifyFile(filePath: Path, outputPath: Path) -> None:
     """Minifies a file from a certain path
 
     Args:
@@ -12,15 +12,16 @@ def minifyFile(filePath: Path) -> None:
         RuntimeError: In the event the file cannot be found or an error has occurred
     """
     try:
-        with filePath.open("r+", encoding="utf-8") as fileRW:
+        with filePath.open("r", encoding="utf-8") as fileRW:
             minifiedCode = minify(
                 fileRW.read(),
                 rename_locals=False,
                 rename_globals=False,
                 hoist_literals=False,
             )
-            fileRW.seek(0)
-            fileRW.writelines(minifiedCode)
-            fileRW.truncate()
+
+        with outputPath.open("w", encoding="utf-8") as outputFile:
+            outputFile.write(minifiedCode)
+
     except Exception as e:
         raise RuntimeError(f"Failed to minify {filePath}: {e}")

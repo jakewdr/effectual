@@ -30,7 +30,7 @@ def optimizeDependencies(file: Path):
             pass
 
         if file.suffix == ".py" and MINIFY:
-            minifyFile(file)
+            minifyFile(file, file)
 
 
 def main() -> None:

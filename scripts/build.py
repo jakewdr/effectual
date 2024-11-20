@@ -57,17 +57,21 @@ def bundleFiles(
 
         print(f"{tagColor('bundling')} || Pipenv dependencies {folderColor(totalSize)}")
 
-        for pyFile in pythonFiles:
+        for pyFile in sourceDirectory.glob("*.py"):
             if minification:
-                minifyFile(pyFile)
+                outputFilePath: Path = Path(outputDirectory / pyFile.name.strip())
+                minifyFile(pyFile, outputFilePath)
+                pyFile: Path = outputFilePath
 
             print(f"{tagColor('bundling')} || {pyFile.name} {fileColor(pyFile)}")
             bundler.write(pyFile, arcname=pyFile.name.strip())
-            pyFile.unlink()
+
+            if minification:
+                pyFile.unlink()
 
     endTime = perf_counter()
 
-    print(f"{tagColor('OUTPUT')}   || {outputPath.name} {fileColor(outputPath)}")
+    print(f"{tagColor('OUTPUT')}   || {outputFileName} {fileColor(outputPath)}")
     print(completeColor(f"Bundled in {endTime - startTime:.3f}s"))
 
 
@@ -83,15 +87,10 @@ def main() -> None:
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))
     outputFileName: str = configData.get("outputFileName", "bundle.py")
-    compressionLevel: int = configData.get(
-        "compressionLevel", 9
+    compressionLevel: int = max(
+        0, min(9, configData.get("compressionLevel", 9))
     )  # Default level if not set
     minification: bool = configData.get("minification", True)
-
-    if compressionLevel > 9:
-        compressionLevel = 9
-    elif compressionLevel < 0:
-        compressionLevel = 0
 
     if not sourceDirectory.is_dir():
         raise RuntimeError(
