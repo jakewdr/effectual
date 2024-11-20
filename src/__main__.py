@@ -21,8 +21,6 @@ def bundleCheck() -> None:
 
     if "bundle.py" in scriptPath:
         print("Running in bundle!")
-    else:
-        print("Running in developer mode!")
 
 
 def versionCheck() -> None:
