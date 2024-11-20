@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 import zipfile
 from config import loadConfig
@@ -41,7 +40,7 @@ def bundleFiles(
 
         totalSize: int = int(0)
         for cachedFile in cachePath.rglob("*"):
-            totalSize += os.path.getsize(cachedFile)
+            totalSize += cachedFile.stat().st_size
             arcName = cachedFile.relative_to(cachePath)
             bundler.write(cachedFile, arcname=arcName)
 
@@ -78,7 +77,7 @@ def main() -> None:
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))
     outputFileName: str = configData.get("outputFileName", "bundle.py")
     compressionLevel: int = max(
-        0, min(9, configData.get("compressionLevel", 9))
+        0, min(9, configData.get("compressionLevel", 5))
     )  # Default level if not set
     minification: bool = configData.get("minification", True)
 

@@ -1,6 +1,5 @@
 from termcolor import colored
 from pathlib import Path
-import os
 
 
 def fileColor(filePath: Path) -> str:
@@ -12,7 +11,7 @@ def fileColor(filePath: Path) -> str:
     Returns:
         str: Output string
     """
-    return colored(f"{str(round(os.path.getsize(filePath) / 1024, 3))}kB", "yellow")
+    return colored(f"{str(round(filePath.stat().st_size / 1024, 3))}kB", "yellow")
 
 
 def tagColor(nameOfTag: str) -> str:

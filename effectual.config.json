@@ -3,5 +3,5 @@
     "outputDirectory": "./dist/",
     "outputFileName": "bundle.py",
     "minification": true,
-    "compressionLevel": 9
+    "compressionLevel": 5
 }
