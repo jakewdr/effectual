@@ -40,6 +40,8 @@ def bundleFiles(
 
         totalSize: int = int(0)
         for cachedFile in cachePath.rglob("*"):
+            if cachedFile.is_dir() and not any(cachedFile.iterdir()):
+                continue
             totalSize += cachedFile.stat().st_size
             arcName = cachedFile.relative_to(cachePath)
             bundler.write(cachedFile, arcname=arcName)
