@@ -1,5 +1,4 @@
 import os
-import shutil
 from pathlib import Path
 import zipfile
 from config import loadConfig
@@ -31,15 +30,6 @@ def bundleFiles(
         outputPath.unlink()
 
     startTime = perf_counter()
-
-    pythonFiles: list[Path] = []
-    for filePath in sourceDirectory.glob("*.py"):
-        try:
-            destination: Path = outputDirectory / filePath.name.strip()
-            shutil.copyfile(filePath, destination)
-            pythonFiles.append(destination)
-        except PermissionError:
-            print(errorColor(f"Skipped {filePath} due to permission error."))
 
     with zipfile.ZipFile(
         outputPath,
