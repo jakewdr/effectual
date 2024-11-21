@@ -1,4 +1,4 @@
-import subprocess
+import os
 import zipfile
 from pathlib import Path
 from config import loadConfig
@@ -18,7 +18,7 @@ def main() -> None:
         for pyFile in sourceDirectory.glob("*.py"):
             bundler.write(pyFile, arcname=pyFile.name)
 
-    subprocess.run(["pipenv", "run", "python", outputFile], check=True)
+    os.system(f"pipenv run python {outputFile}")
 
 
 if __name__ == "__main__":

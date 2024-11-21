@@ -23,7 +23,6 @@ tasks:
         aliases: [dist]
         deps: [check]
         cmds:
-            - task: cache
             - defer: pipenv run python scripts/build.py
 
     check:
@@ -41,10 +40,5 @@ tasks:
     setup:
         cmds:
             - pipenv --quiet install
-            - task: cache
             - pipenv --quiet lock
-
-    cache:
-        cmds:
-            - pipenv run python scripts/setup.py
             - pipenv run mypy --install-types
