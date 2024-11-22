@@ -19,8 +19,6 @@ def bundleCheck() -> None:
         os.path.realpath(__file__).replace(os.sep, "/")
     )  # Gets the path of the current running python script and makes sure forward-slashes are used
 
-    if "bundle.py" in scriptPath:
-        print("Running in bundle!")
 
 
 def versionCheck() -> None:
