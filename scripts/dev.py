@@ -12,7 +12,8 @@ def main() -> None:
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
 
     Path("./.effectual_cache/dev/").mkdir(parents=True, exist_ok=True)
-    outputFile: str = f"./.effectual_cache/dev/bundle.{str(datetime.now().strftime(r'%d%m%Y%H%M%S'))}.py"
+    currentTime: str = str(datetime.now().strftime(r"%d%m%Y%H%M%S"))
+    outputFile: str = f"./.effectual_cache/dev/bundle.{currentTime}.py"
 
     with zipfile.ZipFile(outputFile, "w") as bundler:
         for pyFile in sourceDirectory.glob("*.py"):
