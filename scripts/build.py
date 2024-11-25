@@ -7,6 +7,7 @@ from minification import minifyToString, minifyFile
 from config import loadConfig
 from multiprocessing import Pool
 from colors import tagColor, fileColor, folderColor, completeColor
+from fileHash import getFilehash
 from time import perf_counter
 
 
@@ -139,8 +140,28 @@ def main() -> None:
             f"Source directory {sourceDirectory} does not exist or is not a directory."
         )
 
+    pipfileHashPath: Path = Path("./.effectual_cache/pipfileHash.toml")
+    currentHash: dict[str] = dict()
+
     startTime = perf_counter()
-    dependencies(minify=minification)
+
+    currentHash["hashes"]: dict[dict] = dict()
+    currentHash["hashes"]["Pipfile"] = getFilehash("./Pipfile")
+    currentHash["hashes"]["lock"] = getFilehash("./Pipfile.lock")
+
+    if pipfileHashPath.exists():
+        with open(pipfileHashPath, "r") as file:
+            lastHash: dict = dict(rtoml.load(file)).get("hashes")
+
+        if currentHash["hashes"] != lastHash:
+            with open(pipfileHashPath, "w") as file:
+                rtoml.dump(currentHash, file)
+            dependencies(minify=minification)
+    else:
+        with open(pipfileHashPath, "x") as file:
+            rtoml.dump(currentHash, file)
+        dependencies(minify=minification)
+
     bundleFiles(
         sourceDirectory,
         outputDirectory,
