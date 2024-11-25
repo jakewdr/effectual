@@ -73,8 +73,6 @@ To build an output bundle and not run it simply enter:
 - [Pre-bundling]("https://vite.dev/guide/dep-pre-bundling")
 - Plugin and loader system
 
-- Make the Taskfile and bundle more platform agnostic
-
 ## Contributions
 
 All contributions are welcome, I'm not the best in the world at project management but if you think you can add or improve anything please send over a pull request
