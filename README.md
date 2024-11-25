@@ -71,7 +71,7 @@ To build an output bundle and not run it simply enter:
 
 - Treeshaking
 - Docker integration
-- Adding a plugin and loader system
+- Plugin and loader system
 - Make the Taskfile and bundle more platform agnostic
 
 ## Contributions
