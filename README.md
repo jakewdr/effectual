@@ -71,8 +71,6 @@ To build an output bundle and not run it simply enter:
 
 - Treeshaking
 - Docker integration
-- Add my own HMR system
-- More config granularity
 - Adding a plugin and loader system
 - Make the Taskfile and bundle more platform agnostic
 

@@ -10,14 +10,6 @@ tasks:
     dev:
         cmds:
             - pipenv run python scripts/dev.py -OO
-            - task hmr -w
-
-    hmr:
-        watch: true
-        cmds:
-            - pipenv run python scripts/dev.py -OO
-        sources:
-            - src/**/**
 
     build:
         aliases: [dist]
