@@ -1,6 +1,8 @@
 # Please configure this to your projects needs
 # Effectual options can be configured in [tool.effectual] 
 # Ruff rules can be configured in anything with [tool.ruff]
+# Mypy rules can be configured in anything with [tool.mypy]
+
 [project]
 
 name = "effectual-template"
@@ -112,3 +114,7 @@ docstring-code-format = false
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 docstring-code-line-length = "dynamic"
+
+[tool.mypy]
+
+warn_unused_configs = true
