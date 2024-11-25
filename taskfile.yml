@@ -35,7 +35,7 @@ tasks:
     lint:
         cmds:
             - pipenv run ruff check --fix --config pyproject.toml
-            - defer: pipenv run mypy src/ --config pyproject.toml
+            - defer: pipenv run mypy --config pyproject.toml
 
     setup:
         cmds:

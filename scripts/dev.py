@@ -1,14 +1,15 @@
 import os
 import zipfile
+import rtoml
 from pathlib import Path
-from config import loadConfig
 from datetime import datetime
 
 
 def main() -> None:
     """Super fast bundling for the 'task dev' command"""
 
-    configData = loadConfig(Path("./effectual.config.json"))
+    with open("./pyproject.toml", "r", encoding="utf-8") as file:
+        configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
 
     Path("./.effectual_cache/dev/").mkdir(parents=True, exist_ok=True)
