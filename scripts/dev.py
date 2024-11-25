@@ -1,9 +1,10 @@
+import subprocess
 import time
 import zipfile
-import subprocess
 from pathlib import Path
+
+from colors import completeColor, fileColor, tagColor
 from config import loadConfig
-from colors import tagColor, fileColor, completeColor
 from fileHash import getAllHashes
 
 

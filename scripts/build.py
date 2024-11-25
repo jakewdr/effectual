@@ -1,14 +1,15 @@
-from pathlib import Path
 import os
-import rtoml
 import shutil
 import zipfile
-from minification import minifyToString, minifyFile
-from config import loadConfig
 from multiprocessing import Pool
-from colors import tagColor, fileColor, folderColor, completeColor
-from fileHash import getFilehash
+from pathlib import Path
 from time import perf_counter
+
+import rtoml
+from colors import completeColor, fileColor, folderColor, tagColor
+from config import loadConfig
+from fileHash import getFilehash
+from minification import minifyFile, minifyToString
 
 
 def bundleFiles(

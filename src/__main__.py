@@ -1,6 +1,8 @@
-import requests
-import file2
 import sys
+
+import requests
+
+import file2
 
 
 def main() -> None:

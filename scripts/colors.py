@@ -1,5 +1,6 @@
-from termcolor import colored
 from pathlib import Path
+
+from termcolor import colored
 
 
 def fileColor(filePath: Path) -> str:
