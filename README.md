@@ -70,7 +70,7 @@ To build an output bundle and not run it simply enter:
 ## To be added
 
 - [Treeshaking](https://webpack.js.org/guides/tree-shaking/)
-- [Pre-bundling]("https://vite.dev/guide/dep-pre-bundling")
+- [Pre-bundling](https://vite.dev/guide/dep-pre-bundling)
 - Plugin and loader system
 
 ## Contributions
