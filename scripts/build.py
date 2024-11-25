@@ -4,6 +4,7 @@ import rtoml
 import shutil
 import zipfile
 from minification import minifyToString, minifyFile
+from config import loadConfig
 from multiprocessing import Pool
 from colors import tagColor, fileColor, folderColor, completeColor
 from time import perf_counter
@@ -122,15 +123,7 @@ def main() -> None:
         RuntimeError: In the event there is no source directory
     """
 
-    configPath: str = "./pyproject.toml"
-
-    try:
-        with open(configPath, "r", encoding="utf-8") as file:
-            configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
-    except ValueError as e:
-        raise RuntimeError(f"Invalid TOML in {configPath}: {e}")
-    except FileNotFoundError:
-        raise RuntimeError(f"Configuration file {configPath} not found.")
+    configData: dict = loadConfig("./pyproject.toml")
 
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))

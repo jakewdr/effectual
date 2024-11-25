@@ -1,9 +1,9 @@
 import time
-import rtoml
 import hashlib
 import zipfile
 import subprocess
 from pathlib import Path
+from config import loadConfig
 from colors import tagColor, fileColor, completeColor
 from datetime import datetime
 
@@ -61,17 +61,9 @@ def bundle(sourceDirectory: Path) -> None:
 def main() -> None:
     """Super fast bundling for the 'task dev' command"""
 
-    configPath: str = "./pyproject.toml"
-
-    try:
-        with open(configPath, "r", encoding="utf-8") as file:
-            configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
-    except ValueError as e:
-        raise RuntimeError(f"Invalid TOML in {configPath}: {e}")
-    except FileNotFoundError:
-        raise RuntimeError(f"Configuration file {configPath} not found.")
-
-    sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
+    sourceDirectory: Path = Path(
+        loadConfig("./pyproject.toml").get("sourceDirectory", "src/")
+    )
 
     Path("./.effectual_cache/dev/").mkdir(parents=True, exist_ok=True)
 
