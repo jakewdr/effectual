@@ -69,9 +69,10 @@ To build an output bundle and not run it simply enter:
 
 ## To be added
 
-- Treeshaking
-- Docker integration
+- [Treeshaking](https://webpack.js.org/guides/tree-shaking/)
+- [Pre-bundling]("https://vite.dev/guide/dep-pre-bundling")
 - Plugin and loader system
+
 - Make the Taskfile and bundle more platform agnostic
 
 ## Contributions
