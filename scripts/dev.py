@@ -78,13 +78,12 @@ def main() -> None:
         if currentHashDict != lastHashDict:
             lastHashDict = currentHashDict
             runCommand.terminate()
+            runCommand.wait()
             print(f"{tagColor('reloaded')}   || file change detected")
             bundle(sourceDirectory)
             runCommand = subprocess.Popen(
                 ["pipenv", "run", "python", outputFile], shell=True
             )
-        else:
-            time.sleep(0.1)
 
 
 if __name__ == "__main__":
