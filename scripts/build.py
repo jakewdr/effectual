@@ -66,11 +66,7 @@ def dependencies(minify):
     with open("./Pipfile", "r", encoding="utf-8") as file:
         packages: dict = dict((rtoml.load(file)).get("packages"))
 
-    arguments: list[str] = [
-        "--no-compile",
-        "--quiet",
-        "--no-binary=none",
-    ]
+    arguments: list[str] = ["--no-compile", "--quiet", "--no-binary=none", "--no-cache"]
 
     pathToInstallTo: str = "./.effectual_cache/cachedPackages"
     argumentString: str = " ".join(arguments)
@@ -126,8 +122,15 @@ def main() -> None:
         RuntimeError: In the event there is no source directory
     """
 
-    with open("./pyproject.toml", "r", encoding="utf-8") as file:
-        configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
+    configPath: str = "./pyproject.toml"
+
+    try:
+        with open(configPath, "r", encoding="utf-8") as file:
+            configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
+    except ValueError as e:
+        raise RuntimeError(f"Invalid TOML in {configPath}: {e}")
+    except FileNotFoundError:
+        raise RuntimeError(f"Configuration file {configPath} not found.")
 
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))
@@ -146,11 +149,11 @@ def main() -> None:
     startTime = perf_counter()
     dependencies(minify=minification)
     bundleFiles(
-        sourceDirectory=sourceDirectory,
-        outputDirectory=outputDirectory,
-        outputFileName=outputFileName,
-        compressionLevel=compressionLevel,
-        minification=minification,
+        sourceDirectory,
+        outputDirectory,
+        outputFileName,
+        compressionLevel,
+        minification,
     )
     endTime = perf_counter()
 

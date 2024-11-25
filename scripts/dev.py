@@ -61,8 +61,16 @@ def bundle(sourceDirectory: Path) -> None:
 def main() -> None:
     """Super fast bundling for the 'task dev' command"""
 
-    with open("./pyproject.toml", "r", encoding="utf-8") as file:
-        configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
+    configPath: str = "./pyproject.toml"
+
+    try:
+        with open(configPath, "r", encoding="utf-8") as file:
+            configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
+    except ValueError as e:
+        raise RuntimeError(f"Invalid TOML in {configPath}: {e}")
+    except FileNotFoundError:
+        raise RuntimeError(f"Configuration file {configPath} not found.")
+
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
 
     Path("./.effectual_cache/dev/").mkdir(parents=True, exist_ok=True)
@@ -84,6 +92,8 @@ def main() -> None:
             runCommand = subprocess.Popen(
                 ["pipenv", "run", "python", outputFile], shell=True
             )
+        else:
+            time.sleep(0.1)
 
 
 if __name__ == "__main__":
