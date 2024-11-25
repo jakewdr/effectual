@@ -27,7 +27,7 @@ def minifyFile(filePath: Path) -> None:
 
 
 def minifyToString(filePath: Path) -> str:
-    """_summary_
+    """Minifies string of a python file
 
     Args:
         filePath (Path): Path to file to minify
