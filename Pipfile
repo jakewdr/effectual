@@ -9,11 +9,9 @@ requests = "*"
 [dev-packages]
 ruff = "*"
 python-minifier = "*"
-simplejson = "*"
 rtoml = "*"
 mypy = "*"
-colorama = "*"
 termcolor = "*"
 
 [requires]
-python_version = "3.11"
+python_version = ">=3.8"

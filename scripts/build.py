@@ -3,7 +3,6 @@ import os
 import rtoml
 import shutil
 import zipfile
-from config import loadConfig
 from minification import minifyToString, minifyFile
 from multiprocessing import Pool
 from colors import tagColor, fileColor, folderColor, completeColor
@@ -126,8 +125,9 @@ def main() -> None:
     Raises:
         RuntimeError: In the event there is no source directory
     """
-    configPath = Path("./effectual.config.json")
-    configData = loadConfig(configPath)
+
+    with open("./pyproject.toml", "r", encoding="utf-8") as file:
+        configData: dict = dict((rtoml.load(file)).get("tool").get("effectual"))
 
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))

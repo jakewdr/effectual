@@ -30,12 +30,12 @@ tasks:
 
     format:
         cmds:
-            - pipenv run ruff format --config ruff.toml
+            - pipenv run ruff format --config pyproject.toml
 
     lint:
         cmds:
-            - pipenv run ruff check --fix --config ruff.toml
-            - pipenv run mypy src/
+            - pipenv run ruff check --fix --config pyproject.toml
+            - defer: pipenv run mypy src/
 
     setup:
         cmds:
