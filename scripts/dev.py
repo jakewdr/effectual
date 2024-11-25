@@ -5,7 +5,6 @@ from pathlib import Path
 from config import loadConfig
 from colors import tagColor, fileColor, completeColor
 from fileHash import getAllHashes
-from datetime import datetime
 
 
 def bundle(sourceDirectory: Path) -> None:
@@ -15,9 +14,8 @@ def bundle(sourceDirectory: Path) -> None:
         sourceDirectory (Path): Path to the original python scripts
     """
     startTime = time.perf_counter()
-    currentTime: str = str(datetime.now().strftime(r"%d%m%Y%H%M%S"))
-    global outputFile
-    outputFile = f"./.effectual_cache/dev/bundle.{currentTime}.py"
+
+    outputFile: Path = Path("./.effectual_cache/dev/bundle.py")
 
     with zipfile.ZipFile(outputFile, "w") as bundler:
         for pyFile in sourceDirectory.glob("*.py"):
@@ -36,6 +34,7 @@ def main() -> None:
     )
 
     Path("./.effectual_cache/dev/").mkdir(parents=True, exist_ok=True)
+    outputFile: Path = Path("./.effectual_cache/dev/bundle.py")
 
     bundle(sourceDirectory)
 
@@ -49,6 +48,7 @@ def main() -> None:
             lastHashDict = currentHashDict
             runCommand.terminate()
             runCommand.wait()
+            outputFile.unlink()
             print(f"{tagColor('reloaded')}   || file change detected")
             bundle(sourceDirectory)
             runCommand = subprocess.Popen(

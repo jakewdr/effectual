@@ -145,6 +145,7 @@ def main() -> None:
 
     startTime = perf_counter()
 
+    Path("./.effectual_cache/").mkdir(parents=True, exist_ok=True)
     currentHash["hashes"]: dict[dict] = dict()
     currentHash["hashes"]["Pipfile"] = getFilehash("./Pipfile")
     currentHash["hashes"]["lock"] = getFilehash("./Pipfile.lock")
@@ -171,7 +172,7 @@ def main() -> None:
     )
     endTime = perf_counter()
 
-    print(completeColor(f"Completed in {endTime - startTime:.3f}s"))
+    print(completeColor(f"Completed in {endTime - startTime:.4f}s"))
 
 
 if "__main__" in __name__:

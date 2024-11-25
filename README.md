@@ -47,7 +47,7 @@ To run the source in development mode you can use:
 
     task dev
 
-This will create a bundle in cache and update and rerun every time the source files are changed (if you keep the terminal running), note this will use the dependencies in the virtual env and not effectual's own system
+This will create a bundle in cache and update and rerun every time the source files are changed (if you keep the terminal running), note this will use the dependencies in the virtual environment and not effectual's own cache
 
 This is like what [esBuild](https://esbuild.github.io/) does for vite
 
