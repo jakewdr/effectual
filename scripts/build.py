@@ -63,7 +63,7 @@ def bundleFiles(
     print(f"{tagColor('OUTPUT')}     || {outputFileName} {fileColor(outputPath)}")
 
 
-def dependencies(minify):
+def dependencies(minify: bool) -> None:
     with open("./Pipfile", "r", encoding="utf-8") as file:
         packages: dict = dict((rtoml.load(file)).get("packages"))
 
