@@ -54,7 +54,7 @@ def bundleFiles(
             f"{tagColor('bundling')}   || Pipenv dependencies {folderColor(totalSize)}"
         )
 
-        for pyFile in sourceDirectory.glob("*.py"):
+        for pyFile in sourceDirectory.rglob("*.py"):
             print(f"{tagColor('bundling')}   || {pyFile.name} {fileColor(pyFile)}")
             if minification:
                 fileContents = minifyToString(pyFile)
@@ -88,9 +88,7 @@ def dependencies(minify: bool) -> None:
     with Pool() as pool:
         print(f"{tagColor('optimizing')} || {','.join(packages)}")
         pool.map(
-            optimizeDependencies,
-            Path("./.effectual_cache/cachedPackages").rglob("*"),
-            minify,
+            optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
         )
 
 

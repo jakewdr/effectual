@@ -19,7 +19,7 @@ def bundle(sourceDirectory: Path) -> None:
     outputFile: Path = Path("./.effectual_cache/dev/bundle.py")
 
     with zipfile.ZipFile(outputFile, "w") as bundler:
-        for pyFile in sourceDirectory.glob("*.py"):
+        for pyFile in sourceDirectory.rglob("*.py"):
             print(f"{tagColor('bundling')}   || {pyFile.name} {fileColor(pyFile)}")
             bundler.write(pyFile, arcname=pyFile.name)
     endTime = time.perf_counter()
@@ -47,7 +47,7 @@ def main() -> None:
         currentHashDict = getAllHashes(sourceDirectory)
         if currentHashDict != lastHashDict:
             lastHashDict = currentHashDict
-            runCommand.terminate()
+            runCommand.kill()
             runCommand.wait()
             outputFile.unlink()
             print(f"{tagColor('reloaded')}   || file change detected")

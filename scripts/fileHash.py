@@ -1,4 +1,5 @@
 import hashlib
+from multiprocessing import Pool
 from pathlib import Path
 
 
@@ -26,7 +27,7 @@ def getAllHashes(sourceDirectory: Path) -> dict[str]:
         dict[str]: Dictionary containing paths and hashes
     """
     hashDictionary: dict[str] = dict()
-    for pyFile in sourceDirectory.glob("*.py"):
-        hashDictionary[pyFile]: dict[str] = getFilehash(pyFile)
+    with Pool() as pool:
+        hashDictionary = pool.map(getFilehash, sourceDirectory.glob("*.py"))
 
     return hashDictionary
