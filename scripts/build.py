@@ -1,7 +1,6 @@
 import os
 import shutil
 import zipfile
-from multiprocessing import Pool
 from pathlib import Path
 from time import perf_counter
 
@@ -9,7 +8,7 @@ import rtoml
 from colors import completeColor, fileColor, folderColor, tagColor
 from config import loadConfig
 from fileHash import getFilehash
-from minification import minifyFile, minifyToString
+from minifier import minifyFile, minifyToString
 
 
 def bundleFiles(
@@ -50,9 +49,7 @@ def bundleFiles(
             arcName = cachedFile.relative_to(cachePath)
             bundler.write(cachedFile, arcname=arcName)
 
-        print(
-            f"{tagColor('bundling')}   || Pipenv dependencies {folderColor(totalSize)}"
-        )
+        print(f"{tagColor('bundling')}   || uv dependencies {folderColor(totalSize)}")
 
         for pyFile in sourceDirectory.rglob("*.py"):
             print(f"{tagColor('bundling')}   || {pyFile.name} {fileColor(pyFile)}")
@@ -66,8 +63,8 @@ def bundleFiles(
 
 
 def dependencies(minify: bool) -> None:
-    with open("./Pipfile", "r", encoding="utf-8") as file:
-        packages: dict = dict((rtoml.load(file)).get("packages"))
+    with open("./pyproject.toml", "r", encoding="utf-8") as file:
+        packages: list[str] = dict(rtoml.load(file)).get("project").get("dependencies")
 
     arguments: list[str] = ["--no-compile", "--quiet", "--no-binary=none", "--no-cache"]
 
@@ -79,40 +76,26 @@ def dependencies(minify: bool) -> None:
 
     for key in packages:
         print(f"{tagColor('installing')} || {key}")
-        if packages.get(key) != "*":
-            key = f"{key}=={packages.get(key)}"
-        os.system(
-            f"pipenv run pip3 install {key} {argumentString} --target {pathToInstallTo}"
-        )
+        os.system(f'uv pip install "{key}" {argumentString} --target {pathToInstallTo}')
 
-    with Pool() as pool:
-        print(f"{tagColor('optimizing')} || {','.join(packages)}")
-        pool.map(
-            optimizeDependencies, Path("./.effectual_cache/cachedPackages").rglob("*")
-        )
+    print(f"{tagColor('optimizing')} || {','.join(packages)}")
 
-
-def optimizeDependencies(file: Path) -> None:
-    """Removes files not needed and if minifies if true
-
-    Args:
-        file (Path): Path to a file in the effectual cache
-    """
-    stringFile: str = str(file)
-    if (
-        "__pycache__" in stringFile
-        or ".dist-info" in stringFile
-        or ".pyc" in stringFile
-        or ".pyd" in stringFile
-        or "normalizer.exe" in stringFile
-        or "py.typed" in stringFile
-    ):
-        try:
-            file.unlink()
-        except PermissionError:
-            pass
-
-        if file.suffix == ".py" and minification:
+    for file in Path(pathToInstallTo).rglob("*"):
+        stringFile: str = str(file)
+        if (
+            "__pycache__" in stringFile
+            or ".dist-info" in stringFile
+            or ".pyc" in stringFile
+            or ".pyd" in stringFile
+            or "normalizer.exe" in stringFile
+            or "py.typed" in stringFile
+            or ".lock" in stringFile
+        ):
+            try:
+                file.unlink()
+            except PermissionError:
+                pass
+        elif file.suffix == ".py" and minification:
             minifyFile(file)
 
 
@@ -139,26 +122,25 @@ def main() -> None:
             f"Source directory {sourceDirectory} does not exist or is not a directory."
         )
 
-    pipfileHashPath: Path = Path("./.effectual_cache/pipfileHash.toml")
+    uvHashPath: Path = Path("./.effectual_cache/pyprojectHash.toml")
     currentHash: dict[str] = dict()
 
     startTime = perf_counter()
 
     Path("./.effectual_cache/").mkdir(parents=True, exist_ok=True)
     currentHash["hashes"]: dict[dict] = dict()
-    currentHash["hashes"]["Pipfile"] = getFilehash("./Pipfile")
-    currentHash["hashes"]["lock"] = getFilehash("./Pipfile.lock")
+    currentHash["hashes"]["pyproject"] = getFilehash("./pyproject.toml")
+    currentHash["hashes"]["lock"] = getFilehash("./uv.lock")
 
-    if pipfileHashPath.exists():
-        with open(pipfileHashPath, "r") as file:
+    if uvHashPath.exists():
+        with open(uvHashPath, "r") as file:
             lastHash: dict = dict(rtoml.load(file)).get("hashes")
-
         if currentHash["hashes"] != lastHash:
-            with open(pipfileHashPath, "w") as file:
+            with open(uvHashPath, "w") as file:
                 rtoml.dump(currentHash, file)
             dependencies(minify=minification)
     else:
-        with open(pipfileHashPath, "x") as file:
+        with open(uvHashPath, "x") as file:
             rtoml.dump(currentHash, file)
         dependencies(minify=minification)
 

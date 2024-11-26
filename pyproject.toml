@@ -7,7 +7,10 @@
 name = "effectual-template"
 requires-python = ">= 3.8"
 readme = "README.md"
+version = "0.0.0"
 license = {file = "LICENSE"}
+
+# TODO Move effectual config options that overlap with project options here
 
 classifiers = [
     "License :: OSI Approved :: MIT License",
@@ -17,6 +20,19 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "requests>=2.32.3"
+]
+
+[dependency-groups]
+dev = [
+    "python-minifier>=2.11.3",
+    "rtoml>=0.11.0",
+    "ruff>=0.8.0",
+    "termcolor>=2.4.0",
+    "vulture>=2.13",
 ]
 
 [project.urls]

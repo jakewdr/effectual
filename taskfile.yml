@@ -5,29 +5,30 @@ tasks:
     run:
         deps: [build]
         cmds:
-            - pipenv run python dist/bundle.py
+            - uv run dist/bundle.py
 
     dev:
         cmds:
-            - pipenv run python scripts/dev.py -OO
+            - uv run scripts/dev.py -OO
 
     build:
         aliases: [dist]
         deps: [check]
         cmds:
-            - defer: pipenv run python scripts/build.py -OO
+            - defer: uv run scripts/build.py -OO
 
     check:
         deps: [lint, format]
 
     format:
         cmds:
-            - pipenv run ruff format --config pyproject.toml
+            - uv run ruff format --config pyproject.toml
 
     lint:
         cmds:
-            - pipenv run ruff check --config pyproject.toml
+            - uv run ruff check --config pyproject.toml
     setup:
         cmds:
-            - pipenv --quiet install
-            - pipenv --quiet lock
+            - uv venv --python 3.11
+            - uv sync
+            - uv lock
