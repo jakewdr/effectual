@@ -30,12 +30,13 @@ def bundle(sourceDirectory: Path) -> None:
 def main() -> None:
     """Super fast bundling for the 'task dev' command"""
 
-    sourceDirectory: Path = Path(
-        loadConfig("./pyproject.toml").get("sourceDirectory", "src/")
-    )
-
-    Path("./.effectual_cache/dev/").mkdir(parents=True, exist_ok=True)
-    outputFile: Path = Path("./.effectual_cache/dev/bundle.py")
+    configData: dict = loadConfig("./pyproject.toml")
+    sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
+    outputFileName: str = Path(configData.get("outputFileName", "bundle.py"))
+    devBundlePath: Path =  Path("./.effectual_cache/dev/")
+    devBundlePath.mkdir(parents=True, exist_ok=True)
+    
+    outputFile: Path = devBundlePath / outputFileName
 
     bundle(sourceDirectory)
 
