@@ -5,7 +5,7 @@ tasks:
     run:
         deps: [build]
         cmds:
-            - python dist/bundle.py
+            - pipenv run python dist/bundle.py
 
     dev:
         cmds:
