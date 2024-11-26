@@ -2,6 +2,10 @@
 
 .effectual_cache
 
+# uv specific, remove this from gitignore if your project is incredibly version specific
+
+uv.lock
+
 # taskfile specfic
 
 .task
