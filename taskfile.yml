@@ -27,10 +27,7 @@ tasks:
     lint:
         cmds:
             - pipenv run ruff check --config pyproject.toml
-            - defer: pipenv run mypy --config pyproject.toml
-
     setup:
         cmds:
             - pipenv --quiet install
             - pipenv --quiet lock
-            - pipenv run mypy --install-types

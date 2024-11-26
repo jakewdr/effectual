@@ -33,21 +33,21 @@ def main() -> None:
     configData: dict = loadConfig("./pyproject.toml")
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputFileName: str = Path(configData.get("outputFileName", "bundle.py"))
-    devBundlePath: Path =  Path("./.effectual_cache/dev/")
+    devBundlePath: Path = Path("./.effectual_cache/dev/")
     devBundlePath.mkdir(parents=True, exist_ok=True)
-    
+
     outputFile: Path = devBundlePath / outputFileName
 
     bundle(sourceDirectory)
 
     runCommand = subprocess.Popen(["pipenv", "run", "python", outputFile], shell=True)
 
-    lastHashDict: dict[str] = getAllHashes(sourceDirectory)
+    lastHashList: list[str] = getAllHashes(sourceDirectory)
 
     while True:
-        currentHashDict = getAllHashes(sourceDirectory)
-        if currentHashDict != lastHashDict:
-            lastHashDict = currentHashDict
+        currentHashList: list[str] = getAllHashes(sourceDirectory)
+        if currentHashList != lastHashList:
+            lastHashList = currentHashList
             runCommand.kill()
             runCommand.wait()
             outputFile.unlink()

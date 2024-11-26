@@ -17,7 +17,7 @@ def getFilehash(filePath: Path) -> str:
     return fileHash
 
 
-def getAllHashes(sourceDirectory: Path) -> dict[str]:
+def getAllHashes(sourceDirectory: Path) -> list[str]:
     """Gets all hashes in directory
 
     Args:
@@ -26,8 +26,9 @@ def getAllHashes(sourceDirectory: Path) -> dict[str]:
     Returns:
         dict[str]: Dictionary containing paths and hashes
     """
-    hashDictionary: dict[str] = dict()
-    with Pool() as pool:
-        hashDictionary = pool.map(getFilehash, sourceDirectory.glob("*.py"))
 
-    return hashDictionary
+    with Pool() as pool:
+        hashList: list[str] = pool.map(getFilehash, sourceDirectory.glob("*.py"))
+    return hashList
+
+# Todo convert to a list like what it actually is

@@ -1,7 +1,6 @@
 # Please configure this to your projects needs
 # Effectual options can be configured in [tool.effectual] 
 # Ruff rules can be configured in anything with [tool.ruff]
-# Mypy rules can be configured in anything with [tool.mypy]
 
 [project]
 
@@ -80,7 +79,7 @@ target-version = "py311"
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F", "I"]
+select = ["E", "F", "I", "TC"]
 ignore = []
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
@@ -121,8 +120,3 @@ docstring-code-format = false
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 docstring-code-line-length = "dynamic"
-
-[tool.mypy]
-
-files = ["src/**/*.py"]
-warn_unused_configs = true

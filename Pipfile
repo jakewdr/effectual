@@ -10,7 +10,6 @@ requests = "*"
 ruff = "*"
 python-minifier = "*"
 rtoml = "*"
-mypy = "*"
 termcolor = "*"
 
 [requires]
