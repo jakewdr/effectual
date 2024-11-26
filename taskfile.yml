@@ -15,7 +15,7 @@ tasks:
         aliases: [dist]
         deps: [check]
         cmds:
-            - defer: pipenv run python scripts/build.py
+            - defer: pipenv run python scripts/build.py -OO
 
     check:
         deps: [lint, format]
