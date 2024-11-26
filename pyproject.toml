@@ -36,6 +36,8 @@ compressionLevel = 5
 [tool.ruff]
 
 include = ["pyproject.toml", "src/**/*.py", "scripts/**/*.py"]
+fix = true
+cache-dir = ".ruff_cache/"
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -87,6 +89,11 @@ unfixable = []
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.pydocstyle]
+
+# Use Google-style docstrings.
+convention = "google"
 
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
