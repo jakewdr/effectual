@@ -40,7 +40,7 @@ def main() -> None:
 
     bundle(sourceDirectory)
 
-    runCommand = subprocess.Popen(["pipenv", "run", "python", outputFile], shell=True)
+    runCommand = subprocess.Popen(["uv", "run", outputFile], shell=True)
 
     lastHashList: list[str] = getAllHashes(sourceDirectory)
 
@@ -53,9 +53,7 @@ def main() -> None:
             outputFile.unlink()
             print(f"{tagColor('reloaded')}   || file change detected")
             bundle(sourceDirectory)
-            runCommand = subprocess.Popen(
-                ["pipenv", "run", "python", outputFile], shell=True
-            )
+            runCommand = subprocess.Popen(["uv", "run", outputFile], shell=True)
         else:
             time.sleep(0.1)
 

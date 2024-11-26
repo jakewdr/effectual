@@ -13,14 +13,17 @@ def minifyFile(filePath: Path) -> None:
         RuntimeError: In the event the file cannot be found or an error has occurred
     """
     try:
-        with filePath.open("r", encoding="utf-8") as fileRW:
+        with filePath.open("r+", encoding="utf-8") as fileRW:
             minifiedCode = minify(
                 fileRW.read(),
                 rename_locals=False,
                 rename_globals=False,
                 hoist_literals=False,
             )
+
+            fileRW.seek(0)
             fileRW.write(minifiedCode)
+            fileRW.truncate()
 
     except Exception as e:
         raise RuntimeError(f"Failed to minify {filePath}: {e}")
