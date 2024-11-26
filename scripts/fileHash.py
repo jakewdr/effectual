@@ -30,5 +30,3 @@ def getAllHashes(sourceDirectory: Path) -> list[str]:
     with Pool() as pool:
         hashList: list[str] = pool.map(getFilehash, sourceDirectory.glob("*.py"))
     return hashList
-
-# Todo convert to a list like what it actually is

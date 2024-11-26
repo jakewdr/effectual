@@ -15,11 +15,16 @@ Sometimes you want a single portable python file without having to make a platfo
 
 ### Python
 
-Firstly you will need to install a version of [Python](https://www.python.org/) alongside pip, this project was originally built with [Python 3.11.x](https://www.python.org/downloads/release/python-31110/) but supports between python 3.8 and 3.13, the version the project uses can be changed from the [Pipfile](https://bilard.medium.com/change-python-version-in-pipenv-1ac7b8f9b7b9) and [pyproject.toml]("https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#python-requires"), make sure to change the ruff settings to the output version as well!
+Firstly you will need to install a version of [Python](https://www.python.org/) alongside pip, this project was originally built with [Python 3.11.x](https://www.python.org/downloads/release/python-31110/) but supports between python 3.8 and 3.13, you can refer to the uv documentation on how to change the python version of the project (make sure to change the 'task setup' command as well)
+
 
 ### Taskfile
 
 Secondly [Task](https://taskfile.dev) is used to run multiple commands together, check the [website](https://taskfile.dev/installation/) for the best way to install with your operating system!
+
+### uv
+
+To install [uv](https://docs.astral.sh/uv/) again check the [website](https://docs.astral.sh/uv/#getting-started) for the best way for your operating system
 
 ### Downloading the template
 
@@ -27,17 +32,23 @@ This can be done by pressing the green 'use this template button' on GitHub or r
 
     git clone https://github.com/jakewdr/effectual <outputDirectory>
 
-### Pipenv and installing packages
-
-To install Pipenv simply run [(you made need to add the folder to PATH in windows)](https://github.com/Atri-Labs/atrilabs-engine/discussions/586):
-
-    pip install --user pipenv
+### Original setup
 
 Then navigate to your template folder and enter the following into the command line:
 
     task setup
 
 This will install all development dependencies into a virtual environment allowing the following commands to work
+
+### Installing packages correctly
+
+When you are installing something that needs to be in the final bundle (or is imported in any of the ./src/ scripts) please use:
+
+    uv add <packageName>
+
+Otherwise if you are installing tooling or other things for developers just use:
+
+    uv add --dev <packageName>
 
 ## Running the project
 
