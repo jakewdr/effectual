@@ -27,6 +27,12 @@ tasks:
     lint:
         cmds:
             - uv run ruff check --config pyproject.toml
+    
+    lock:
+        cmds:
+            - uv lock
+            - uv sync
+
     setup:
         cmds:
             - uv venv --python 3.11
