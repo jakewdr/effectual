@@ -11,6 +11,9 @@ version = "0.0.0"
 license = {file = "LICENSE"}
 
 # TODO Move effectual config options that overlap with project options here
+sourceDirectory = "./src/"
+outputDirectory =  "./dist/"
+outputFileName = "bundle.py"
 
 classifiers = [
     "License :: OSI Approved :: MIT License",
@@ -31,7 +34,7 @@ dev = [
     "python-minifier>=2.11.3",
     "rtoml>=0.11.0",
     "ruff>=0.8.0",
-    "termcolor>=2.4.0"
+    "termcolor>=2.4.0",
 ]
 
 [project.urls]
@@ -44,7 +47,7 @@ sourceDirectory = "./src/"
 outputDirectory =  "./dist/"
 outputFileName = "bundle.py"
 minification = true
-compressionLevel = 5 
+compressionLevel = 5
 
 
 [tool.ruff]
@@ -94,7 +97,7 @@ target-version = "py311"
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["E", "F", "I", "TC", "ANN", "TYP", "PLE", "PYI026", "PYI055", "NPY001"]
+select = ["E", "F", "I", "TC", "ANN", "TYP", "PLE", "PERF", "PYI026", "PYI055", "NPY001"]
 ignore = []
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
