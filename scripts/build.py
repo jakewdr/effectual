@@ -81,15 +81,10 @@ def dependencies(minify: bool) -> None:
     print(f"{tagColor('optimizing')} || {','.join(packages)}")
 
     for file in Path(pathToInstallTo).rglob("*"):
-        stringFile: str = str(file)
         if (
-            "__pycache__" in stringFile
-            or ".dist-info" in stringFile
-            or ".pyc" in stringFile
-            or ".pyd" in stringFile
-            or "normalizer.exe" in stringFile
-            or "py.typed" in stringFile
-            or ".lock" in stringFile
+            (file.suffix in (".pyc", ".pyd", ".exe", ".typed"))
+            or "__pycache__" in str(file)
+            or ".lock" in str(file)
         ):
             try:
                 file.unlink()
