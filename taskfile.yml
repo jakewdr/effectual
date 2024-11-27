@@ -12,7 +12,7 @@ tasks:
             - uv run scripts/dev.py -OO
 
     build:
-        aliases: [dist]
+        aliases: [dist, bundle]
         deps: [check]
         cmds:
             - defer: uv run scripts/build.py -OO
