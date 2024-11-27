@@ -1,6 +1,7 @@
 import os
 import shutil
 import zipfile
+from multiprocessing import Pool
 from pathlib import Path
 from time import perf_counter
 
@@ -80,18 +81,23 @@ def dependencies(minify: bool) -> None:
 
     print(f"{tagColor('optimizing')} || {','.join(packages)}")
 
-    for file in Path(pathToInstallTo).rglob("*"):
-        if (
-            (file.suffix in (".pyc", ".pyd", ".exe", ".typed"))
-            or "__pycache__" in file.stem
-            or ".lock" in file.stem
-        ):
-            try:
-                file.unlink()
-            except PermissionError:
-                pass
-        elif file.suffix == ".py" and minification:
-            minifyFile(file)
+    with Pool(os.cpu_count()) as pool:
+        pool.map(optimizeDependencies, Path(pathToInstallTo).rglob("*"))
+
+
+def optimizeDependencies(file: Path) -> None:
+    if (
+        file.suffix in (".pyc", ".pyd", ".exe", ".typed")
+        or "__pycache__" in str(file)
+        or ".dist-info" in str(file)
+        or ".lock" in str(file)
+    ):
+        try:
+            file.unlink()
+        except PermissionError:
+            pass
+    elif file.suffix == ".py":
+        minifyFile(file)
 
 
 def main() -> None:

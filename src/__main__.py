@@ -8,10 +8,10 @@ import file2
 def main() -> None:
     versionCheck()
     print("Hello World")
+    file2.test()  # Example of using a local file
     url: str = "https://httpbin.org/ip"
     response = requests.get(url)  # Using requests from the bundle!
     print("Your IP is {0}".format(response.json()["origin"]))
-    file2.test()  # Example of using a local file
 
 
 def versionCheck() -> None:
