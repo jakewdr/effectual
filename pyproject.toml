@@ -47,7 +47,6 @@ sourceDirectory = "./src/"
 outputDirectory =  "./dist/"
 outputFileName = "bundle.pyz"
 minification = true
-compressionLevel = 5
 
 
 [tool.ruff]
