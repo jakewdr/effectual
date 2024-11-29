@@ -15,6 +15,7 @@ def bundleFiles(
     sourceDirectory: Path,
     outputDirectory: Path,
     outputFileName: str,
+    compressionLevel: int,
     minification: bool,
 ) -> None:
     """Bundles dependencies and scripts into a single .py archive
@@ -23,6 +24,7 @@ def bundleFiles(
         sourceDirectory (Path): Source directory which must contain a __main__.py script
         outputDirectory (Path): Output directory for the bundle
         outputFileName (str): Name of the output bundle
+        compressionLevel (int): Compression level for the bundle from 0-9
         minification (bool): If the dependencies and scripts should be minified
     """
     outputDirectory.mkdir(parents=True, exist_ok=True)
@@ -34,7 +36,8 @@ def bundleFiles(
     with zipfile.ZipFile(
         outputPath,
         "w",
-        compression=zipfile.ZIP_LZMA,
+        compresslevel=compressionLevel,
+        compression=zipfile.ZIP_DEFLATED,
     ) as bundler:
         cachePath: Path = Path("./.effectual_cache/cachedPackages")
 
@@ -110,6 +113,9 @@ def main() -> None:
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))
     outputFileName: str = configData.get("outputFileName", "bundle.pyz")
+    compressionLevel: int = max(
+        0, min(9, configData.get("compressionLevel", 5))
+    )  # Default level if not set
     global minification
     minification = configData.get("minification", True)
 
@@ -144,6 +150,7 @@ def main() -> None:
         sourceDirectory,
         outputDirectory,
         outputFileName,
+        compressionLevel,
         minification,
     )
     endTime = perf_counter()
