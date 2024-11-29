@@ -1,7 +1,6 @@
 import os
 import shutil
 import zipfile
-from multiprocessing import Pool
 from pathlib import Path
 from time import perf_counter
 
@@ -78,7 +77,9 @@ def dependencies(minify: bool) -> None:
 
     print(f"{tagColor('optimizing')} || {','.join(packages)}")
 
-    with Pool(os.cpu_count()) as pool:
+    import multiprocessing
+
+    with multiprocessing.Pool(processes=multiprocessing.cpu_count()) as pool:
         pool.map(optimizeDependencies, Path(pathToInstallTo).rglob("*"))
 
 
