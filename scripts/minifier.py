@@ -48,4 +48,4 @@ def minifyToString(filePath: Path) -> str:
             )
         ).encode("utf-8")
 
-        return minifiedCode
+    return minifiedCode
