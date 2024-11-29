@@ -78,7 +78,7 @@ def dependencies(minify: bool) -> None:
         print(f"{tagColor('installing')} || {key}")
         os.system(f'uv pip install "{key}" {argumentString} --target {pathToInstallTo}')
 
-    print(f"{tagColor('optimizing')} || {','.join(packages)}")
+    print(f"{tagColor('optimizing')} || {', '.join(packages)}")
 
     import multiprocessing
 
