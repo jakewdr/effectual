@@ -5,7 +5,7 @@ tasks:
     run:
         deps: [build]
         cmds:
-            - uv run dist/bundle.py
+            - uv run dist/bundle.pyz
 
     dev:
         cmds:

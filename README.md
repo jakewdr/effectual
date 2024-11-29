@@ -4,7 +4,7 @@
 
 ## Why?
 
-Sometimes you want a single portable python file without having to make a platform specific executable or .pyz file! Basically me trying to make [Vite](https://vite.dev/) for python (badly)
+Sometimes you want a single portable python file without having to make a platform specific executable or a dependency less .pyz! Basically me trying to make [Vite](https://vite.dev/) for python (badly) :(
 
 ## When not to use this
 

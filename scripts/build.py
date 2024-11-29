@@ -111,7 +111,7 @@ def main() -> None:
 
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
     outputDirectory: Path = Path(configData.get("outputDirectory", "out/"))
-    outputFileName: str = configData.get("outputFileName", "bundle.py")
+    outputFileName: str = configData.get("outputFileName", "bundle.pyz")
     compressionLevel: int = max(
         0, min(9, configData.get("compressionLevel", 5))
     )  # Default level if not set

@@ -45,7 +45,7 @@ Repository = "https://github.com/jakewdr/effectual"
 
 sourceDirectory = "./src/"
 outputDirectory =  "./dist/"
-outputFileName = "bundle.py"
+outputFileName = "bundle.pyz"
 minification = true
 compressionLevel = 5
 

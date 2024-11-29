@@ -32,7 +32,7 @@ def main() -> None:
 
     configData: dict = loadConfig("./pyproject.toml")
     sourceDirectory: Path = Path(configData.get("sourceDirectory", "src/"))
-    outputFileName: str = Path(configData.get("outputFileName", "bundle.py"))
+    outputFileName: str = Path(configData.get("outputFileName", "bundle.pyz"))
     devBundlePath: Path = Path("./.effectual_cache/dev/")
     devBundlePath.mkdir(parents=True, exist_ok=True)
 
