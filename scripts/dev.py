@@ -50,7 +50,7 @@ def main() -> None:
             runCommand.wait()
             outputFile.unlink()
             print(f"{tagColor('reloaded')}   || file change detected")
-            bundle(sourceDirectory)
+            bundle(sourceDirectory, outputFile)
             runCommand = subprocess.Popen(["uv", "run", outputFile], shell=True)
         else:
             time.sleep(0.1)
