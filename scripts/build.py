@@ -79,10 +79,10 @@ def dependencies(minify: bool) -> None:
     print(f"{tagColor('optimizing')} || {','.join(packages)}")
 
     with Pool(os.cpu_count()) as pool:
-        pool.map_async(optimizeDependencies, Path(pathToInstallTo).rglob("*"))
+        pool.map(optimizeDependencies, Path(pathToInstallTo).rglob("*"))
 
 
-async def optimizeDependencies(file: Path) -> None:
+def optimizeDependencies(file: Path) -> None:
     if (
         file.suffix in (".pyc", ".pyd", ".exe", ".typed")
         or "__pycache__" in str(file)
