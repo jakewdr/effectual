@@ -8,7 +8,7 @@ from config import loadConfig
 from fileHash import getAllHashes
 
 
-def bundle(sourceDirectory: Path) -> None:
+def bundle(sourceDirectory: Path, outputFile: Path) -> None:
     """Bundles scripts into a single .py archive
 
     Args:
@@ -16,7 +16,6 @@ def bundle(sourceDirectory: Path) -> None:
     """
     startTime = time.perf_counter()
 
-    outputFile: Path = Path("./.effectual_cache/dev/bundle.py")
 
     with zipfile.ZipFile(outputFile, "w") as bundler:
         for pyFile in sourceDirectory.rglob("*.py"):
@@ -38,7 +37,7 @@ def main() -> None:
 
     outputFile: Path = devBundlePath / outputFileName
 
-    bundle(sourceDirectory)
+    bundle(sourceDirectory, outputFile)
 
     runCommand = subprocess.Popen(["uv", "run", outputFile], shell=True)
 
