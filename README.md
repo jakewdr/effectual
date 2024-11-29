@@ -68,7 +68,7 @@ To bundle the source files and run the output:
 
     task run
 
-This will lint/format the source files, install external dependencies and then bundle the project and any (non development) dependencies specified in the Pipfile.
+This will lint/format the source files, install external dependencies and then bundle the project and any (non development) dependencies specified in the pyproject.toml.
 
 This is like what what [Rollup](https://rollupjs.org/) does for vite
 
