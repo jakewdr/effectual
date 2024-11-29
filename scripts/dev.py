@@ -16,7 +16,6 @@ def bundle(sourceDirectory: Path, outputFile: Path) -> None:
     """
     startTime = time.perf_counter()
 
-
     with zipfile.ZipFile(outputFile, "w") as bundler:
         for pyFile in sourceDirectory.rglob("*.py"):
             print(f"{tagColor('bundling')}   || {pyFile.name} {fileColor(pyFile)}")

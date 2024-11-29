@@ -16,9 +16,9 @@ def minifyFile(filePath: Path) -> None:
         with filePath.open("r+", encoding="utf-8") as fileRW:
             minifiedCode = minify(
                 fileRW.read(),
-                rename_locals=False,
-                rename_globals=False,
                 hoist_literals=False,
+                remove_literal_statements=True,
+                remove_debug=True,
             )
 
             fileRW.seek(0)
@@ -42,9 +42,9 @@ def minifyToString(filePath: Path) -> str:
         minifiedCode: str = str(
             minify(
                 fileR.read(),
-                rename_locals=False,
-                rename_globals=False,
                 hoist_literals=False,
+                remove_literal_statements=True,
+                remove_debug=True,
             )
         ).encode("utf-8")
 
