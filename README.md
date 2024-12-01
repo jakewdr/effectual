@@ -1,3 +1,5 @@
+*Please use [this](https://github.com/effectualpy/effectual-template) instead*
+
 # effectual
 
 */ɪˈfek.tʃu.əl/ meaning effective and successful*
