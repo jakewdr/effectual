@@ -26,6 +26,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "effectual>=0.2.0",
     "python-minifier>=2.11.3",
     "rtoml>=0.11.0",
     "ruff>=0.8.0",

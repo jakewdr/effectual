@@ -9,13 +9,13 @@ tasks:
 
     dev:
         cmds:
-            - uv run scripts/dev.py -OO
+            - uv run efec dev
 
     build:
         aliases: [dist, bundle]
         deps: [check]
         cmds:
-            - defer: uv run scripts/build.py -OO
+            - defer: uv run efec dist
 
     check:
         deps: [lint, format]
