@@ -2,15 +2,6 @@
 
 */ɪˈfek.tʃu.əl/ meaning effective and successful*
 
-## Why?
-
-Sometimes you want a single portable python file without having to make a platform specific executable or a dependency-less .pyz! Basically me trying to make [Vite](https://vite.dev/) for python (badly) :(
-
-## When not to use this
-
-- The python package requires access to specific files like [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter/wiki/Packaging#windows-pyinstaller-auto-py-to-exe) and [Pillow](https://python-pillow.org/)
-- Incredibly version specific code, for example something that won't run on a slightly different python version or operating system
-
 ## Setup
 
 ### Python
@@ -60,8 +51,6 @@ To run the source in development mode you can use:
 
 This will create a bundle in cache and update and rerun every time the source files are changed (if you keep the terminal running), note this will use the dependencies in the virtual environment and not effectual's own cache
 
-This is like what [esBuild](https://esbuild.github.io/) does for vite
-
 ### For production
 
 To bundle the source files and run the output:
@@ -77,13 +66,3 @@ This is like what what [Rollup](https://rollupjs.org/) does for vite
 To build an output bundle and not run it simply enter:
 
     task build
-
-## To be added
-
-- [Treeshaking](https://webpack.js.org/guides/tree-shaking/)
-- [Pre-bundling](https://vite.dev/guide/dep-pre-bundling)
-- Plugin and loader system
-
-## Contributions
-
-All contributions are welcome, I'm not the best in the world at project management but if you think you can add or improve anything please send over a pull request
