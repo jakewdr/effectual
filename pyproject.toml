@@ -10,23 +10,13 @@ readme = "README.md"
 version = "0.0.0"
 license = {file = "LICENSE"}
 
-classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-]
-
 dependencies = [
     "requests>=2.32.3"
 ]
 
 [dependency-groups]
 dev = [
-    "effectual>=0.2.0",
+    "effectual>=0.3.3",
     "python-minifier>=2.11.3",
     "rtoml>=0.11.0",
     "ruff>=0.8.0",
